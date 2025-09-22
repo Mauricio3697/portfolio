@@ -17,476 +17,154 @@
       --bg-color: #ffffff;
       --text-color: #555;
       --heading-color: #2d2e32;
-      --transition: all 0.4s ease-in-out;
+      --card-bg-color: #f9f9f9;
       --box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.1);
+      --transition: all 0.4s ease-in-out;
+    }
+
+    body.dark-mode {
+      --primary-color: #64f4ac;
+      --secondary-color: #2d2e32;
+      --bg-color: #1a1a1a;
+      --text-color: #c0c0c0;
+      --heading-color: #f0f0f0;
+      --card-bg-color: #2b2b2b;
+      --box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.4);
     }
     
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-    
-    body {
-      font-family: 'Inter', sans-serif;
-      background-color: var(--bg-color);
-      color: var(--text-color);
-      transition: var(--transition);
-      overflow-x: hidden;
-      line-height: 1.6;
-    }
-    
+    html { scroll-behavior: smooth; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Inter', sans-serif; background-color: var(--bg-color); color: var(--text-color); transition: var(--transition); overflow-x: hidden; line-height: 1.6; }
     a { text-decoration: none; color: inherit; }
+    ul { list-style: none; }
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 2rem; }
     
-    .container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 2rem;
-    }
-    
-    /* Header */
-    header {
-      position: fixed;
-      width: 100%;
-      top: 0;
-      left: 0;
-      background-color: var(--bg-color);
-      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-      z-index: 1000;
-      transition: var(--transition);
-    }
-    
-    .header-content {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 1rem 0;
-    }
-    
-    .logo {
-      font-size: 1.8rem;
-      font-weight: 700;
-      color: var(--heading-color);
-    }
-    
+    header { position: fixed; width: 100%; top: 0; left: 0; background-color: var(--bg-color); box-shadow: 0 2px 10px rgba(0,0,0,0.1); z-index: 1000; transition: var(--transition); }
+    .header-content { display: flex; justify-content: space-between; align-items: center; padding: 1rem 0; }
+    .logo { font-size: 1.8rem; font-weight: 700; color: var(--heading-color); }
     .logo span { color: var(--primary-color); }
-    
-    nav ul {
-      display: flex;
-      gap: 2rem;
-    }
-    
-    nav ul li a {
-      font-weight: 500;
-      transition: var(--transition);
-    }
-    
+    nav ul { display: flex; gap: 2rem; }
+    nav ul li a { font-weight: 500; transition: var(--transition); color: var(--text-color); }
     nav ul li a:hover { color: var(--primary-color); }
+    .mobile-nav-toggle { display: none; cursor: pointer; font-size: 1.5rem; color: var(--heading-color); }
+    .utility-controls { display: flex; align-items: center; gap: 1rem; }
+    .lang-selector { display: flex; gap: 0.5rem; font-size: 0.9rem; }
+    .lang-selector button { background: none; border: none; cursor: pointer; padding: 0.2rem 0.5rem; transition: var(--transition); color: var(--text-color); }
+    .lang-selector button:hover, .lang-selector button.active { color: var(--primary-color); font-weight: 600; }
+    .theme-toggle { background: none; border: none; cursor: pointer; font-size: 1.2rem; color: var(--heading-color); transition: var(--transition); }
+    .theme-toggle:hover { color: var(--primary-color); }
     
-    .mobile-nav-toggle {
-      display: none;
-      cursor: pointer;
-      font-size: 1.5rem;
-    }
+    section { padding: 8rem 0; }
+    .section-title { font-size: 2.5rem; font-weight: 700; text-align: center; margin-bottom: 3rem; color: var(--heading-color); position: relative; }
+    .section-title::after { content: ''; position: absolute; bottom: -10px; left: 50%; transform: translateX(-50%); width: 80px; height: 4px; background-color: var(--primary-color); border-radius: 10px; }
     
-    /* Seletor de Idioma */
-    .lang-selector {
-      display: flex;
-      gap: 0.5rem;
-      font-size: 0.9rem;
-    }
-    
-    .lang-selector button {
-      background: none;
-      border: none;
-      cursor: pointer;
-      padding: 0.2rem 0.5rem;
-      transition: var(--transition);
-    }
-    
-    .lang-selector button:hover,
-    .lang-selector button.active {
-      color: var(--primary-color);
-      font-weight: 600;
-    }
-    
-    /* Seções */
-    section {
-      padding: 8rem 0;
-    }
-    
-    .section-title {
-      font-size: 2.5rem;
-      font-weight: 700;
-      text-align: center;
-      margin-bottom: 3rem;
-      color: var(--heading-color);
-      position: relative;
-    }
-    
-    .section-title::after {
-      content: '';
-      position: absolute;
-      bottom: -10px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 80px;
-      height: 4px;
-      background-color: var(--primary-color);
-      border-radius: 10px;
-    }
-    
-    /* Hero */
-    .hero {
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      padding-top: 6rem;
-      background: linear-gradient(to bottom, #f5f5f5, #ffffff);
-    }
-    
-    .hero-content {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 3rem;
-      align-items: center;
-    }
-    
-    .hero-info h1 {
-      font-size: 3.5rem;
-      margin-bottom: 1rem;
-      color: var(--heading-color);
-    }
-    
+    .hero { min-height: 100vh; display: flex; align-items: center; padding-top: 6rem; background: var(--bg-color); }
+    body.dark-mode .hero { background: linear-gradient(to bottom, #1a1a1a, #2b2b2b); }
+    .hero-content { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: center; }
+    .hero-info h1 { font-size: 3.5rem; margin-bottom: 1rem; color: var(--heading-color); }
     .hero-info h1 span { color: var(--primary-color); }
+    .hero-info p.subtitle { font-size: 1.3rem; font-weight: 500; margin-bottom: 1.5rem; color: var(--text-color); min-height: 2.6rem; /* Space for typing */ }
+    .hero-info p.subtitle .cursor { display: inline-block; background-color: var(--text-color); margin-left: 0.1rem; width: 3px; animation: blink 1s infinite; }
+    @keyframes blink { 50% { background-color: transparent; } }
+    .hero-info p.description { margin-bottom: 2rem; line-height: 1.8; }
+    .cta-btn { display: inline-flex; align-items: center; gap: 0.8rem; background-color: var(--primary-color); color: white; padding: 0.8rem 1.8rem; border-radius: 50px; font-weight: 600; transition: var(--transition); box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+    .cta-btn:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
+    .hero-image img { max-width: 90%; border-radius: 20px; box-shadow: var(--box-shadow); animation: float 6s ease-in-out infinite; }
+    @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
     
-    .hero-info p.subtitle {
-      font-size: 1.3rem;
-      font-weight: 500;
-      margin-bottom: 1.5rem;
-      color: var(--text-color);
-    }
+    .init-message { background-color: var(--secondary-color); color: #fff; padding: 1rem; margin: 2rem auto; max-width: 800px; border-radius: 10px; text-align: center; font-style: italic; }
     
-    .hero-info p.description {
-      margin-bottom: 2rem;
-      line-height: 1.8;
-    }
+    .about-content { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: center; }
+    .about-info h3 { font-size: 1.8rem; margin-bottom: 1.5rem; color: var(--heading-color); }
+    .about-info p { margin-bottom: 1.2rem; line-height: 1.8; }
+    .stats-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; margin-top: 1rem; }
+    .stat-item { background-color: var(--bg-color); padding: 1.5rem; border-radius: 10px; box-shadow: var(--box-shadow); text-align: center; transition: var(--transition); }
+    .stat-item:hover { transform: translateY(-5px) scale(1.03); box-shadow: 0 10px 20px rgba(0,0,0,0.15); }
+    .stat-item .number { font-size: 2.5rem; font-weight: 700; color: var(--primary-color); margin-bottom: 0.5rem; }
     
-    .cta-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.8rem;
-      background-color: var(--primary-color);
-      color: white;
-      padding: 0.8rem 1.8rem;
-      border-radius: 50px;
-      font-weight: 600;
-      transition: var(--transition);
-      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-    }
-    
-    .cta-btn:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 10px 20px rgba(0,0,0,0.1);
-    }
-    
-    .hero-image img {
-      max-width: 90%;
-      border-radius: 20px;
-      box-shadow: var(--box-shadow);
-      animation: float 6s ease-in-out infinite;
-    }
-    
-    @keyframes float {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-15px); }
-    }
-    
-    /* Mensagem Inicial */
-    .init-message {
-      background-color: var(--secondary-color);
-      color: #fff;
-      padding: 1rem;
-      margin: 2rem auto;
-      max-width: 800px;
-      border-radius: 10px;
-      text-align: center;
-      font-style: italic;
-    }
-    
-    /* Sobre */
-    .about-content {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 3rem;
-      align-items: center;
-    }
-    
-    .about-info h3 {
-      font-size: 1.8rem;
-      margin-bottom: 1.5rem;
-      color: var(--heading-color);
-    }
-    
-    .about-info p {
-      margin-bottom: 1.2rem;
-      line-height: 1.8;
-    }
-    
-    .stats-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 1.5rem;
-      margin-top: 1rem;
-    }
-    
-    .stat-item {
-      background-color: var(--bg-color);
-      padding: 1.5rem;
-      border-radius: 10px;
-      box-shadow: var(--box-shadow);
-      text-align: center;
-      transition: var(--transition);
-    }
-    
-    .stat-item:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 10px 20px rgba(0,0,0,0.15);
-    }
-    
-    .stat-item .number {
-      font-size: 2.5rem;
-      font-weight: 700;
-      color: var(--primary-color);
-      margin-bottom: 0.5rem;
-    }
-    
-    /* Skills */
-    .skills {
-      background-color: #f9f9f9;
-    }
-    
+    .principles { background-color: var(--card-bg-color); }
+    body.dark-mode .principles { background-color: #222; }
+    .principles-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; text-align: center; }
+    .principle-item { padding: 2rem; background-color: var(--bg-color); border-radius: 10px; box-shadow: var(--box-shadow); transition: var(--transition); }
+    .principle-item:hover { transform: translateY(-10px) scale(1.03); box-shadow: 0 15px 30px rgba(0,0,0,0.15); }
+    .principle-icon { font-size: 2.5rem; color: var(--primary-color); margin-bottom: 1rem; }
+    .principle-item h3 { font-size: 1.3rem; color: var(--heading-color); margin-bottom: 0.8rem; }
+
+    .skills { background-color: var(--card-bg-color); }
     .skills-content { max-width: 800px; margin: 0 auto; }
+    .skill-category { margin-bottom: 3rem; }
+    .skill-category h3 { font-size: 1.5rem; margin-bottom: 1rem; color: var(--heading-color); }
+    .skill-bars { display: grid; gap: 1.5rem; }
+    .skill-bar { position: relative; overflow: hidden; padding: 0.5rem; background: var(--bg-color); border-radius: 5px; }
+    body.dark-mode .skill-bar { background: #3a3a3a; }
+    .skill-bar .info { display: flex; justify-content: space-between; margin-bottom: 0.3rem; font-size: 0.9rem; color: var(--text-color); }
+    .skill-bar .bar { height: 8px; background-color: #ddd; border-radius: 5px; overflow: hidden; }
+    body.dark-mode .skill-bar .bar { background-color: #555; }
+    .skill-bar .progress { height: 100%; background-color: var(--primary-color); border-radius: 5px; width: 0; transition: width 1s ease-in-out; }
     
-    .skill-category {
-      margin-bottom: 3rem;
-    }
+    .portfolio-filter { text-align: center; margin-bottom: 2rem; }
+    .filter-btn { background-color: var(--bg-color); color: var(--text-color); border: 1px solid var(--primary-color); padding: 0.5rem 1rem; margin: 0.2rem; border-radius: 20px; cursor: pointer; transition: var(--transition); }
+    .filter-btn:hover, .filter-btn.active { background-color: var(--primary-color); color: white; }
+    .portfolio-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; }
+    .portfolio-item { position: relative; overflow: hidden; border-radius: 10px; box-shadow: var(--box-shadow); transition: var(--transition); }
+    .portfolio-item:hover { transform: translateY(-5px) scale(1.03); }
+    .portfolio-item img { width: 100%; height: 220px; object-fit: cover; transition: transform 0.4s ease; }
+    .portfolio-item:hover img { transform: scale(1.1); }
+    .portfolio-overlay { position: absolute; bottom: 0; left: 0; width: 100%; padding: 1rem; background: linear-gradient(to top, rgba(0,0,0,0.8), transparent); transform: translateY(100%); transition: var(--transition); display: flex; flex-direction: column; justify-content: flex-end; }
+    .portfolio-item:hover .portfolio-overlay { transform: translateY(0); }
+    .portfolio-overlay h3 { color: #fff; font-size: 1.2rem; margin-bottom: 0.5rem; }
+    .portfolio-links { display: flex; }
+    .portfolio-links a { width: 35px; height: 35px; border-radius: 50%; background-color: #fff; display: flex; justify-content: center; align-items: center; color: var(--primary-color); font-size: 1rem; transition: var(--transition); margin-right: 0.5rem; }
+    .portfolio-links a:hover { background-color: var(--primary-color); color: #fff; }
     
-    .skill-category h3 {
-      font-size: 1.5rem;
-      margin-bottom: 1rem;
-      color: var(--heading-color);
-    }
+    .contact { background-color: var(--card-bg-color); }
+    .contact-content { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: flex-start; }
+    .contact-info h3 { font-size: 1.8rem; margin-bottom: 1rem; color: var(--heading-color); }
+    .contact-info p { margin-bottom: 1rem; line-height: 1.8; }
+    .contact-item { display: flex; align-items: center; gap: 0.8rem; margin-bottom: 0.8rem; }
+    .contact-item .icon { width: 35px; height: 35px; border-radius: 50%; background-color: var(--primary-color); display: flex; justify-content: center; align-items: center; color: #fff; font-size: 1rem; }
+    .social-links { display: flex; gap: 0.8rem; margin-top: 1rem; }
+    .social-links a { width: 35px; height: 35px; border-radius: 50%; background-color: var(--bg-color); box-shadow: var(--box-shadow); display: flex; justify-content: center; align-items: center; color: var(--primary-color); font-size: 1rem; transition: var(--transition); }
+    .social-links a:hover { background-color: var(--primary-color); color: #fff; transform: translateY(-3px); }
+    .contact-form { background-color: var(--bg-color); padding: 2rem; border-radius: 10px; box-shadow: var(--box-shadow); }
+    .contact-form h3 { font-size: 1.8rem; margin-bottom: 1.5rem; color: var(--heading-color); text-align: center; }
+    .form-group { margin-bottom: 1rem; }
+    .form-group label { display: block; margin-bottom: 0.5rem; color: var(--text-color); font-weight: 500; }
+    .form-group input, .form-group textarea { width: 100%; padding: 0.8rem; border: 1px solid #ccc; border-radius: 5px; background-color: var(--bg-color); color: var(--text-color); transition: border-color 0.3s ease; }
+    .form-group input:focus, .form-group textarea:focus { outline: none; border-color: var(--primary-color); }
+    .form-group textarea { resize: vertical; min-height: 120px; }
+    .form-submit-btn { width: 100%; background-color: var(--primary-color); color: white; border: none; padding: 1rem; border-radius: 5px; font-size: 1.1rem; font-weight: 600; cursor: pointer; transition: var(--transition); }
+    .form-submit-btn:hover { opacity: 0.8; transform: translateY(-2px); }
+    .form-status { margin-top: 1rem; text-align: center; font-weight: 600; }
+    .form-status.success { color: green; }
+    .form-status.error { color: red; }
+    .loading-spinner { display: none; border: 4px solid rgba(0, 0, 0, 0.1); border-top: 4px solid var(--primary-color); border-radius: 50%; width: 24px; height: 24px; animation: spin 1s linear infinite; margin: 0 auto; }
+    .form-submit-btn:disabled { opacity: 0.7; cursor: not-allowed; }
+    @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
     
-    .skill-bars {
-      display: grid;
-      gap: 1.5rem;
-    }
+    footer { background-color: var(--primary-color); color: #fff; text-align: center; padding: 1.5rem 0; }
     
-    .skill-bar {
-      position: relative;
-      overflow: hidden;
-      padding: 0.5rem;
-      background: #eee;
-      border-radius: 5px;
-    }
+    .animate-on-scroll { opacity: 0; transform: translateY(50px); transition: opacity 0.6s ease-out, transform 0.6s ease-out; }
+    .animate-on-scroll.is-visible { opacity: 1; transform: translateY(0); }
+
+    #back-to-top { position: fixed; bottom: 20px; right: 20px; background-color: var(--primary-color); color: white; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; z-index: 999; opacity: 0; visibility: hidden; transition: opacity 0.3s, visibility 0.3s, transform 0.3s; transform: translateY(20px); }
+    #back-to-top.visible { opacity: 1; visibility: visible; transform: translateY(0); }
     
-    .skill-bar .info {
-      display: flex;
-      justify-content: space-between;
-      margin-bottom: 0.3rem;
-      font-size: 0.9rem;
-    }
-    
-    .skill-bar .bar {
-      height: 8px;
-      background-color: #ddd;
-      border-radius: 5px;
-      overflow: hidden;
-    }
-    
-    .skill-bar .progress {
-      height: 100%;
-      background-color: var(--primary-color);
-      border-radius: 5px;
-      width: 0;
-      transition: width 1s ease-in-out;
-    }
-    
-    /* Portfolio */
-    .portfolio-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 2rem;
-    }
-    
-    .portfolio-item {
-      position: relative;
-      overflow: hidden;
-      border-radius: 10px;
-      box-shadow: var(--box-shadow);
-      transition: var(--transition);
-    }
-    
-    .portfolio-item:hover {
-      transform: translateY(-5px);
-    }
-    
-    .portfolio-item img {
-      width: 100%;
-      height: 220px;
-      object-fit: cover;
-    }
-    
-    .portfolio-overlay {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      padding: 1rem;
-      background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
-      transform: translateY(100%);
-      transition: var(--transition);
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-end;
-    }
-    
-    .portfolio-item:hover .portfolio-overlay {
-      transform: translateY(0);
-    }
-    
-    .portfolio-overlay h3 {
-      color: #fff;
-      font-size: 1.2rem;
-      margin-bottom: 0.5rem;
-    }
-    
-    .portfolio-links a {
-      width: 35px;
-      height: 35px;
-      border-radius: 50%;
-      background-color: #fff;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      color: var(--primary-color);
-      font-size: 1rem;
-      transition: var(--transition);
-      margin-right: 0.5rem;
-    }
-    
-    .portfolio-links a:hover {
-      background-color: var(--primary-color);
-      color: #fff;
-    }
-    
-    /* Contato (Sem formulário) */
-    .contact {
-      background-color: #f9f9f9;
-    }
-    
-    .contact-content {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 3rem;
-      align-items: center;
-    }
-    
-    .contact-info h3 {
-      font-size: 1.8rem;
-      margin-bottom: 1rem;
-      color: var(--heading-color);
-    }
-    
-    .contact-info p {
-      margin-bottom: 1rem;
-      line-height: 1.8;
-    }
-    
-    .contact-item {
-      display: flex;
-      align-items: center;
-      gap: 0.8rem;
-      margin-bottom: 0.8rem;
-    }
-    
-    .contact-item .icon {
-      width: 35px;
-      height: 35px;
-      border-radius: 50%;
-      background-color: var(--primary-color);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      color: #fff;
-      font-size: 1rem;
-    }
-    
-    .social-links {
-      display: flex;
-      gap: 0.8rem;
-      margin-top: 1rem;
-    }
-    
-    .social-links a {
-      width: 35px;
-      height: 35px;
-      border-radius: 50%;
-      background-color: var(--bg-color);
-      box-shadow: var(--box-shadow);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      color: var(--primary-color);
-      font-size: 1rem;
-      transition: var(--transition);
-    }
-    
-    .social-links a:hover {
-      background-color: var(--primary-color);
-      color: #fff;
-      transform: translateY(-3px);
-    }
-    
-    /* Footer */
-    footer {
-      background-color: var(--primary-color);
-      color: #fff;
-      text-align: center;
-      padding: 1.5rem 0;
-    }
-    
-    /* Mobile */
     @media (max-width: 992px) {
-      .hero-content,
-      .about-content,
-      .contact-content {
-        grid-template-columns: 1fr;
-        text-align: center;
-      }
+      .hero-content, .about-content, .contact-content { grid-template-columns: 1fr; text-align: center; }
       .hero-info h1 { font-size: 2.8rem; }
+      .hero-image { order: -1; margin-bottom: 2rem; }
+      .contact-form { order: -1; margin-bottom: 2rem; }
+      .contact-details, .social-links { justify-content: center; }
     }
-    
     @media (max-width: 768px) {
-      nav ul {
-        flex-direction: column;
-        background-color: var(--bg-color);
-        position: fixed;
-        top: 60px;
-        left: -100%;
-        width: 100%;
-        padding: 1.5rem;
-        gap: 1rem;
-        transition: var(--transition);
-      }
+      nav ul { flex-direction: column; background-color: var(--bg-color); position: fixed; top: 60px; left: -100%; width: 100%; padding: 1.5rem; gap: 1rem; transition: var(--transition); box-shadow: var(--box-shadow); }
       nav ul.active { left: 0; }
       .mobile-nav-toggle { display: block; }
     }
   </style>
 </head>
 <body>
-  <!-- Header -->
   <header>
     <div class="container header-content">
       <a href="#" class="logo">M<span>.</span>Matheus</a>
@@ -499,514 +177,467 @@
           <li><a data-key="navContact" href="#contact"></a></li>
         </ul>
       </nav>
-      <div class="lang-selector">
-        <button class="lang-btn" data-lang="en">EN</button>
-        <button class="lang-btn" data-lang="pt">PT</button>
-        <button class="lang-btn" data-lang="fr">FR</button>
-        <button class="lang-btn" data-lang="ru">RU</button>
-        <!-- Botões adicionados para Mandarim e Alemão -->
-        <button class="lang-btn" data-lang="zh">ZH</button>
-        <button class="lang-btn" data-lang="de">DE</button>
-      </div>
-      <div class="mobile-nav-toggle">
-        <i class="fas fa-bars"></i>
+      <div class="utility-controls">
+        <div class="lang-selector">
+          <button class="lang-btn" data-lang="en">EN</button>
+          <button class="lang-btn" data-lang="pt">PT</button>
+          <button class="lang-btn" data-lang="fr">FR</button>
+          <button class="lang-btn" data-lang="ru">RU</button>
+          <button class="lang-btn" data-lang="zh">ZH</button>
+          <button class="lang-btn" data-lang="de">DE</button>
+        </div>
+        <button class="theme-toggle" aria-label="Toggle dark mode">
+          <i class="fas fa-moon"></i>
+        </button>
+        <div class="mobile-nav-toggle">
+          <i class="fas fa-bars"></i>
+        </div>
       </div>
     </div>
   </header>
 
-  <!-- Hero -->
-  <section id="home" class="hero">
-    <div class="container hero-content">
-      <div class="hero-info animate__animated animate__fadeInLeft">
-        <h1 data-key="heroTitle"></h1>
-        <p class="subtitle" data-key="heroSubtitle"></p>
-        <p class="description" data-key="heroDescription"></p>
-        <a href="mauricio.pdf" class="cta-btn" data-key="heroBtn"></a>
+  <main>
+    <section id="home" class="hero">
+      <div class="container hero-content">
+        <div class="hero-info animate__animated animate__fadeInLeft">
+          <h1 data-key="heroTitle"></h1>
+          <p class="subtitle" data-key="heroSubtitle"></p>
+          <p class="description" data-key="heroDescription"></p>
+          <a href="mauricio.pdf" class="cta-btn" data-key="heroBtn" download>
+            <i class="fas fa-download"></i>
+            <span></span>
+          </a>
+        </div>
+        <div class="hero-image animate__animated animate__fadeInRight">
+          <img src="matheus.png" alt="Maurício Matheus" />
+        </div>
       </div>
-      <div class="hero-image animate__animated animate__fadeInRight">
-        <img src="matheus.png" alt="Maurício Matheus" />
-      </div>
+    </section>
+
+    <div class="init-message animate__animated animate__fadeIn">
+      <p data-key="initMessage"></p>
     </div>
-  </section>
 
-  <!-- Mensagem Inicial -->
-  <div class="init-message animate__animated animate__fadeIn">
-    <p data-key="initMessage"></p>
-  </div>
-
-  <!-- Sobre -->
-  <section id="about" class="about">
-    <div class="container">
-      <h2 class="section-title" data-key="aboutTitle"></h2>
-      <div class="about-content">
-        <div class="about-info animate__animated animate__fadeInUp">
-          <h3 data-key="aboutWho"></h3>
-          <p data-key="aboutText1"></p>
-          <p data-key="aboutText2"></p>
-        </div>
-        <div class="stats-grid animate__animated animate__fadeInUp animate__delay-1s">
-          <div class="stat-item">
-            <div class="number">2+</div>
-            <p data-key="statProjects"></p>
+    <section id="about" class="about">
+      <div class="container">
+        <h2 class="section-title" data-key="aboutTitle"></h2>
+        <div class="about-content">
+          <div class="about-info animate-on-scroll">
+            <h3 data-key="aboutWho"></h3>
+            <p data-key="aboutText1"></p>
+            <p data-key="aboutText2"></p>
           </div>
-          <div class="stat-item">
-            <div class="number">1+</div>
-            <p data-key="statExperience"></p>
-          </div>
-          <div class="stat-item">
-            <div class="number">3</div>
-            <p data-key="statLanguages"></p>
-          </div>
-          <div class="stat-item">
-            <div class="number">6º</div>
-            <p data-key="statPeriod"></p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Skills -->
-  <section id="skills" class="skills">
-    <div class="container">
-      <h2 class="section-title" data-key="skillsTitle"></h2>
-      <div class="skills-content">
-        <div class="skill-category animate__animated animate__fadeInUp">
-          <h3 data-key="techSkills"></h3>
-          <div class="skill-bars">
-            <div class="skill-bar" data-progress="45">
-              <div class="info">
-                <span>Power BI</span>
-                <span>45%</span>
-              </div>
-              <div class="bar">
-                <div class="progress"></div>
-              </div>
+          <div class="stats-grid animate-on-scroll">
+            <div class="stat-item">
+              <div class="number">2+</div><p data-key="statProjects"></p>
             </div>
-            <div class="skill-bar" data-progress="25">
-              <div class="info">
-                <span>C++</span>
-                <span>25%</span>
-              </div>
-              <div class="bar">
-                <div class="progress"></div>
-              </div>
+            <div class="stat-item">
+              <div class="number">1+</div><p data-key="statExperience"></p>
             </div>
-            <div class="skill-bar" data-progress="45">
-              <div class="info">
-                <span>Excel</span>
-                <span>45%</span>
-              </div>
-              <div class="bar">
-                <div class="progress"></div>
-              </div>
+            <div class="stat-item">
+              <div class="number">3</div><p data-key="statLanguages"></p>
             </div>
-            <div class="skill-bar" data-progress="30">
-              <div class="info">
-                <span>Python</span>
-                <span>30%</span>
-              </div>
-              <div class="bar">
-                <div class="progress"></div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="skill-category animate__animated animate__fadeInUp animate__delay-1s">
-          <h3 data-key="languageSkills"></h3>
-          <div class="skill-bars">
-            <div class="skill-bar" data-progress="75">
-              <div class="info">
-                <span data-key="english"></span>
-                <span>75%</span>
-              </div>
-              <div class="bar">
-                <div class="progress"></div>
-              </div>
-            </div>
-            <div class="skill-bar" data-progress="40">
-              <div class="info">
-                <span data-key="french"></span>
-                <span>40%</span>
-              </div>
-              <div class="bar">
-                <div class="progress"></div>
-              </div>
-            </div>
-            <div class="skill-bar" data-progress="25">
-              <div class="info">
-                <span data-key="russian"></span>
-                <span>25%</span>
-              </div>
-              <div class="bar">
-                <div class="progress"></div>
-              </div>
+            <div class="stat-item">
+              <div class="number">6º</div><p data-key="statPeriod"></p>
             </div>
           </div>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- Portfolio -->
-  <section id="portfolio" class="portfolio">
-    <div class="container">
-      <h2 class="section-title" data-key="portfolioTitle"></h2>
-      <div class="portfolio-grid">
-        <div class="portfolio-item animate__animated animate__zoomIn">
-          <img src="caneca.jpeg" alt="Accessible Web Project">
-          <div class="portfolio-overlay">
-            <h3 data-key="proj1"></h3>
-            <div class="portfolio-links">
-              <a href="https://mauricioeng.github.io/projeto-integrador-2/index.html" target="_blank">
-                <i class="fab fa-github"></i>
-              </a>
+    <section id="principles" class="principles">
+      <div class="container">
+        <h2 class="section-title" data-key="principlesTitle"></h2>
+        <div class="principles-grid animate-on-scroll">
+          <div class="principle-item"><div class="principle-icon"><i class="fas fa-rocket"></i></div><h3 data-key="principle1Title"></h3><p data-key="principle1Desc"></p></div>
+          <div class="principle-item"><div class="principle-icon"><i class="fas fa-heart-pulse"></i></div><h3 data-key="principle2Title"></h3><p data-key="principle2Desc"></p></div>
+          <div class="principle-item"><div class="principle-icon"><i class="fas fa-chart-line"></i></div><h3 data-key="principle3Title"></h3><p data-key="principle3Desc"></p></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="skills" class="skills">
+      <div class="container">
+        <h2 class="section-title" data-key="skillsTitle"></h2>
+        <div class="skills-content">
+          <div class="skill-category animate-on-scroll">
+            <h3 data-key="techSkills"></h3>
+            <div class="skill-bars">
+              <div class="skill-bar" data-progress="45"><div class="info"><span>Power BI</span><span>45%</span></div><div class="bar"><div class="progress"></div></div></div>
+              <div class="skill-bar" data-progress="25"><div class="info"><span>C++</span><span>25%</span></div><div class="bar"><div class="progress"></div></div></div>
+              <div class="skill-bar" data-progress="45"><div class="info"><span>Excel</span><span>45%</span></div><div class="bar"><div class="progress"></div></div></div>
+              <div class="skill-bar" data-progress="30"><div class="info"><span>Python</span><span>30%</span></div><div class="bar"><div class="progress"></div></div></div>
             </div>
           </div>
-        </div>
-        <div class="portfolio-item animate__animated animate__zoomIn animate__delay-1s">
-          <img src="quarto.png" alt="3D Modeling Project">
-          <div class="portfolio-overlay">
-            <h3 data-key="proj2"></h3>
-            <div class="portfolio-links">
-              <a href="https://www.youtube.com/watch?v=JgaJrC8EEXQ" target="_blank">
-                <i class="fab fa-youtube"></i>
-              </a>
-            </div>
-          </div>
-        </div>
-        <div class="portfolio-item animate__animated animate__zoomIn animate__delay-2s">
-          <img src="casa.png" alt="3D Modeling Project">
-          <div class="portfolio-overlay">
-            <h3 data-key="proj3"></h3>
-            <div class="portfolio-links">
-              <a href="https://www.youtube.com/watch?v=HzZThS1vytQ" target="_blank">
-                <i class="fab fa-youtube"></i>
-              </a>
-            </div>
-          </div>
-        </div>
-        <div class="portfolio-item animate__animated animate__zoomIn animate__delay-3s">
-          <img src="cleide.jpeg" alt="PHP/Java Web App">
-          <div class="portfolio-overlay">
-            <h3 data-key="proj4"></h3>
-            <div class="portfolio-links">
-              <a href="https://mauricioeng.github.io/Agenda/sobre.html" target="_blank">
-                <i class="fab fa-github"></i>
-              </a>
+          <div class="skill-category animate-on-scroll">
+            <h3 data-key="languageSkills"></h3>
+            <div class="skill-bars">
+              <div class="skill-bar" data-progress="75"><div class="info"><span data-key="english"></span><span>75%</span></div><div class="bar"><div class="progress"></div></div></div>
+              <div class="skill-bar" data-progress="40"><div class="info"><span data-key="french"></span><span>40%</span></div><div class="bar"><div class="progress"></div></div></div>
+              <div class="skill-bar" data-progress="25"><div class="info"><span data-key="russian"></span><span>25%</span></div><div class="bar"><div class="progress"></div></div></div>
             </div>
           </div>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- Contato (Detalhes de contato) -->
-  <section id="contact" class="contact">
-    <div class="container contact-content">
-      <div class="contact-info animate__animated animate__fadeInUp">
-        <h2 class="section-title" data-key="contactTitle"></h2>
-        <p data-key="contactText"></p>
-        <div class="contact-details">
-          <div class="contact-item">
-            <div class="icon"><i class="fas fa-map-marker-alt"></i></div>
-            <p>Caieiras, SP, Brasil</p>
-          </div>
-          <div class="contact-item">
-            <div class="icon"><i class="fas fa-envelope"></i></div>
-            <p><a href="mailto:mauriciomts99@hotmail.com">mauriciomts99@hotmail.com</a></p>
-          </div>
-          <div class="contact-item">
-            <div class="icon"><i class="fas fa-phone"></i></div>
-            <p><a href="tel:+5511942502819">+55 (11) 94250-2819</a></p>
-          </div>
+    <section id="portfolio" class="portfolio">
+      <div class="container">
+        <h2 class="section-title" data-key="portfolioTitle"></h2>
+        <div class="portfolio-filter">
+          <button class="filter-btn active" data-filter="all" data-key="filterAll"></button>
+          <button class="filter-btn" data-filter="web" data-key="filterWeb"></button>
+          <button class="filter-btn" data-filter="3d" data-key="filter3D"></button>
         </div>
-        <div class="social-links">
-          <a href="https://www.instagram.com/mauricio_matheus3/" target="_blank"><i class="fab fa-instagram"></i></a>
-          <a href="https://github.com/Mauricio3697" target="_blank"><i class="fab fa-github"></i></a>
-          <a href="https://www.youtube.com/@TheuofGames/featured" target="_blank"><i class="fab fa-youtube"></i></a>
-          <a href="https://www.linkedin.com/" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+        <div class="portfolio-grid animate-on-scroll">
+          <div class="portfolio-item" data-category="web"><img src="caneca.jpeg" alt="Project"><div class="portfolio-overlay"><h3 data-key="proj1"></h3><div class="portfolio-links"><a href="https://mauricioeng.github.io/projeto-integrador-2/index.html" target="_blank" title="View"><i class="fab fa-github"></i></a></div></div></div>
+          <div class="portfolio-item" data-category="3d"><img src="quarto.png" alt="Project"><div class="portfolio-overlay"><h3 data-key="proj2"></h3><div class="portfolio-links"><a href="https://www.youtube.com/watch?v=JgaJrC8EEXQ" target="_blank" title="View"><i class="fab fa-youtube"></i></a></div></div></div>
+          <div class="portfolio-item" data-category="3d"><img src="casa.png" alt="Project"><div class="portfolio-overlay"><h3 data-key="proj3"></h3><div class="portfolio-links"><a href="https://www.youtube.com/watch?v=HzZThS1vytQ" target="_blank" title="View"><i class="fab fa-youtube"></i></a></div></div></div>
+          <div class="portfolio-item" data-category="web"><img src="cleide.jpeg" alt="Project"><div class="portfolio-overlay"><h3 data-key="proj4"></h3><div class="portfolio-links"><a href="https://mauricioeng.github.io/Agenda/sobre.html" target="_blank" title="View"><i class="fab fa-github"></i></a></div></div></div>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- Footer -->
+    <section id="contact" class="contact">
+      <div class="container contact-content">
+        <div class="contact-info animate-on-scroll">
+          <h2 class="section-title" data-key="contactTitle"></h2>
+          <p data-key="contactText"></p>
+          <div class="contact-details">
+            <div class="contact-item"><div class="icon"><i class="fas fa-map-marker-alt"></i></div><p>Caieiras, SP, Brasil</p></div>
+            <div class="contact-item"><div class="icon"><i class="fas fa-envelope"></i></div><p><a href="mailto:mauriciomts99@hotmail.com">mauriciomts99@hotmail.com</a></p></div>
+            <div class="contact-item"><div class="icon"><i class="fas fa-phone"></i></div><p><a href="tel:+5511942502819">+55 (11) 94250-2819</a></p></div>
+          </div>
+          <div class="social-links">
+            <a href="https://www.instagram.com/mauricio_matheus3/" target="_blank" title="Instagram"><i class="fab fa-instagram"></i></a>
+            <a href="https://github.com/Mauricio3697" target="_blank" title="GitHub"><i class="fab fa-github"></i></a>
+            <a href="https://www.youtube.com/@TheuofGames/featured" target="_blank" title="YouTube"><i class="fab fa-youtube"></i></a>
+            <a href="https://www.linkedin.com/" target="_blank" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+          </div>
+        </div>
+        <div class="contact-form animate-on-scroll">
+          <h3 data-key="formTitle"></h3>
+          <form id="contactForm">
+            <div class="form-group"><label for="name" data-key="formName"></label><input type="text" id="name" name="name" required></div>
+            <div class="form-group"><label for="email" data-key="formEmail"></label><input type="email" id="email" name="email" required></div>
+            <div class="form-group"><label for="subject" data-key="formSubject"></label><input type="text" id="subject" name="subject"></div>
+            <div class="form-group"><label for="message" data-key="formMessage"></label><textarea id="message" name="message" required></textarea></div>
+            <button type="submit" class="form-submit-btn" data-key="formSubmitBtn"></button>
+            <div class="loading-spinner"></div>
+            <div class="form-status" id="formStatus"></div>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <a href="#home" id="back-to-top" aria-label="Back to top"><i class="fas fa-arrow-up"></i></a>
+
   <footer>
     <div class="container">
       <p>&copy; 2025 Maurício Matheus. All rights reserved.</p>
     </div>
   </footer>
 
-  <!-- Scripts -->
   <script>
-    // Menu Mobile
-    const mobileNavToggle = document.querySelector('.mobile-nav-toggle');
-    const navLinks = document.querySelector('nav ul');
-    mobileNavToggle.addEventListener('click', () => {
-      navLinks.classList.toggle('active');
-    });
+    const GOOGLE_SHEETS_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbyNbARMU97g5HAGFGZXYmgxNUe-ZqJvh2FkseGpxf2qzXHEWhZSVO-8-4tQDsuspw4RYg/exec'; 
 
-    // Traduções
     const translations = {
       en: {
-        navHome: "Home",
-        navAbout: "About",
-        navSkills: "Skills",
-        navPortfolio: "Portfolio",
-        navContact: "Contact",
-        heroTitle: "Hi, I'm <span>Maurício Matheus</span>",
-        heroSubtitle: "Computer Engineering Student",
-        heroDescription: "I work at the Health Department of Caieiras and I'm in the 6th period of Computer Engineering. Passionate about technology, I constantly seek challenges that let me learn and innovate.",
+        navHome: "Home", navAbout: "About", navSkills: "Skills", navPortfolio: "Portfolio", navContact: "Contact",
+        heroTitle: "Building the Future with <span>Science and Code</span>",
+        heroSubtitle: "Computer Engineering focused on Health Systems and Market Analysis",
+        heroDescription: "I apply first principles from science and mathematics to engineer solutions that not only work, but solve real-world public health challenges and create market value.",
         heroBtn: "Download Resume",
         initMessage: "These skills do not define a person; a man is capable of reaching the moon and seeing horizons, but he doesn't need a school, only a book. So please, don't demand too much from your team.",
-        aboutTitle: "About <span>Me</span>",
-        aboutWho: "Who I Am",
+        aboutTitle: "About <span>Me</span>", aboutWho: "Who I Am",
         aboutText1: "I am a technology enthusiast who blends scientific fundamentals with programming practice. Currently, I work at the Health Department of Caieiras while completing the 6th period of Computer Engineering.",
         aboutText2: "In addition, I continuously enhance my language skills by mastering English (B2 CEFR), studying French, and learning Russian, expanding my ability to collaborate internationally.",
-        statProjects: "Completed Projects",
-        statExperience: "Years of Experience",
-        statLanguages: "Languages",
-        statPeriod: "Period",
-        skillsTitle: "My <span>Skills</span>",
-        techSkills: "Technical Skills",
-        languageSkills: "Languages",
-        english: "English (B2 CEFR)",
-        french: "French",
-        russian: "Russian",
-        portfolioTitle: "My <span>Portfolio</span>",
-        proj1: "Accessible Web Project",
-        proj2: "3D Modeling Project",
-        proj3: "3D Modeling Project",
-        proj4: "PHP/Java Web App",
+        statProjects: "Completed Projects", statExperience: "Years of Experience", statLanguages: "Languages", statPeriod: "Period",
+        principlesTitle: "My <span>Principles</span>",
+        principle1Title: "Science-Based Engineering", principle1Desc: "I break down complex problems to their fundamentals, like in rocket science, to build logical, efficient, and robust solutions.",
+        principle2Title: "Technology with Human Purpose", principle2Desc: "My public health experience taught me that every line of code can impact lives. The goal is always well-being and efficiency in care.",
+        principle3Title: "Market-Aware Vision", principle3Desc: "A technical solution is only complete if it generates value. I analyze the landscape to ensure technology meets a real market need sustainably.",
+        skillsTitle: "My <span>Skills</span>", techSkills: "Technical Skills", languageSkills: "Languages", english: "English (B2 CEFR)", french: "French", russian: "Russian",
+        portfolioTitle: "My <span>Portfolio</span>", filterAll: "All", filterWeb: "Web Development", filter3D: "3D Modeling",
+        proj1: "Laws of Accessibility in Health", proj2: "Complex Systems Visualization", proj3: "Virtual Environment Engineering", proj4: "Workflow Optimization (Market Analysis)",
         contactTitle: "Get in <span>Touch</span>",
-        contactText: "I am open to new opportunities and partnerships. Feel free to reach out using the details below."
+        contactText: "I am open to new opportunities and partnerships. Feel free to reach out using the details below or send me a message directly through the form.",
+        formTitle: "Send Me a Message", formName: "Your Name", formEmail: "Your Email", formSubject: "Subject", formMessage: "Message", formSubmitBtn: "Send Message",
+        formSuccess: "Message sent successfully! Thank you for contacting me.", formError: "Failed to send message. Please try again later or contact me directly via email."
       },
       pt: {
-        navHome: "Início",
-        navAbout: "Sobre",
-        navSkills: "Skills",
-        navPortfolio: "Portfolio",
-        navContact: "Contato",
-        heroTitle: "Olá, eu sou <span>Maurício Matheus</span>",
-        heroSubtitle: "Estudante de Engenharia de Computação",
-        heroDescription: "Trabalho na Secretaria de Saúde de Caieiras e estou no 6º período de Engenharia de Computação. Apaixonado por tecnologia, busco sempre desafios que me permitam aprender e inovar.",
+        navHome: "Início", navAbout: "Sobre", navSkills: "Skills", navPortfolio: "Portfolio", navContact: "Contato",
+        heroTitle: "Construindo o Futuro com <span>Ciência e Código</span>",
+        heroSubtitle: "Engenharia de Computação com foco em Sistemas de Saúde e Análise de Mercado",
+        heroDescription: "Aplico os primeiros princípios da ciência e da matemática para programar soluções que não apenas funcionam, mas que resolvem problemas reais na saúde pública e criam valor de mercado.",
         heroBtn: "Baixar Currículo",
         initMessage: "Essas habilidades não resumem uma pessoa; o homem é capaz de chegar à lua e ver horizontes, mas não precisa de uma escola, apenas de um livro. Então, por favor, não exija muito da sua equipe.",
-        aboutTitle: "Sobre <span>Mim</span>",
-        aboutWho: "Quem sou eu",
+        aboutTitle: "Sobre <span>Mim</span>", aboutWho: "Quem sou eu",
         aboutText1: "Sou um entusiasta da tecnologia que alia fundamentos científicos à prática da programação. Atualmente, trabalho na Secretaria de Saúde de Caieiras enquanto concluo o 6º período de Engenharia de Computação.",
         aboutText2: "Além disso, aprimoro minhas habilidades linguísticas, dominando inglês (B2 CEFR), estudando francês e aprendendo russo, o que amplia minha capacidade de colaborar internacionalmente.",
-        statProjects: "Projetos Concluídos",
-        statExperience: "Anos de Experiência",
-        statLanguages: "Idiomas",
-        statPeriod: "Período",
-        skillsTitle: "Minhas <span>Skills</span>",
-        techSkills: "Habilidades Técnicas",
-        languageSkills: "Idiomas",
-        english: "Inglês (B2 CEFR)",
-        french: "Francês",
-        russian: "Russo",
-        portfolioTitle: "Meu <span>Portfolio</span>",
-        proj1: "Projeto Web Acessível",
-        proj2: "Projeto Modelagem 3D",
-        proj3: "Projeto Modelagem 3D",
-        proj4: "Aplicação Web PHP/Java",
+        statProjects: "Projetos Concluídos", statExperience: "Anos de Experiência", statLanguages: "Idiomas", statPeriod: "Período",
+        principlesTitle: "Meus <span>Princípios</span>",
+        principle1Title: "Engenharia Baseada em Ciência", principle1Desc: "Decomponho problemas complexos até seus fundamentos, como na física de foguetes, para construir soluções lógicas, eficientes e robustas.",
+        principle2Title: "Tecnologia com Propósito Humano", principle2Desc: "Minha experiência na saúde pública me ensinou que cada linha de código pode impactar vidas. O objetivo é sempre o bem-estar e a eficiência no cuidado.",
+        principle3Title: "Visão de Mercado", principle3Desc: "Uma solução técnica só é completa se gerar valor. Analiso o cenário para garantir que a tecnologia atenda a uma necessidade real de mercado de forma sustentável.",
+        skillsTitle: "Minhas <span>Skills</span>", techSkills: "Habilidades Técnicas", languageSkills: "Idiomas", english: "Inglês (B2 CEFR)", french: "Francês", russian: "Russo",
+        portfolioTitle: "Meu <span>Portfolio</span>", filterAll: "Todos", filterWeb: "Desenvolvimento Web", filter3D: "Modelagem 3D",
+        proj1: "Leis da Acessibilidade na Saúde", proj2: "Visualização de Sistemas Complexos", proj3: "Engenharia de Ambientes Virtuais", proj4: "Otimização de Fluxo (Análise de Mercado)",
         contactTitle: "Entre em <span>Contato</span>",
-        contactText: "Estou aberto a novas oportunidades e parcerias. Entre em contato pelos dados abaixo."
+        contactText: "Estou aberto a novas oportunidades e parcerias. Entre em contato pelos dados abaixo ou envie-me uma mensagem diretamente pelo formulário.",
+        formTitle: "Envie-me uma Mensagem", formName: "Seu Nome", formEmail: "Seu Email", formSubject: "Assunto", formMessage: "Mensagem", formSubmitBtn: "Enviar Mensagem",
+        formSuccess: "Mensagem enviada com sucesso! Obrigado por entrar em contato.", formError: "Falha ao enviar mensagem. Por favor, tente novamente mais tarde ou entre em contato diretamente por email."
       },
       fr: {
-        navHome: "Accueil",
-        navAbout: "À propos",
-        navSkills: "Compétences",
-        navPortfolio: "Portfolio",
-        navContact: "Contact",
-        heroTitle: "Bonjour, je suis <span>Maurício Matheus</span>",
-        heroSubtitle: "Étudiant en Génie Informatique",
-        heroDescription: "Je travaille au Département de la Santé de Caieiras et je suis en 6ème période de Génie Informatique. Passionné par la technologie, je recherche constamment des défis pour apprendre et innover.",
+        navHome: "Accueil", navAbout: "À propos", navSkills: "Compétences", navPortfolio: "Portfolio", navContact: "Contact",
+        heroTitle: "Bâtir l'avenir avec <span>Science et Code</span>",
+        heroSubtitle: "Génie Informatique axé sur les Systèmes de Santé et l'Analyse de Marché",
+        heroDescription: "J'applique les premiers principes de la science et des mathématiques pour concevoir des solutions qui non seulement fonctionnent, mais qui résolvent de vrais défis de santé publique et créent de la valeur marchande.",
         heroBtn: "Télécharger le CV",
         initMessage: "Ces compétences ne définissent pas une personne ; un homme est capable d'atteindre la lune et de voir des horizons, mais il n'a pas besoin d'une école, seulement d'un livre. Alors, s'il vous plaît, n'exigez pas trop de votre équipe.",
-        aboutTitle: "À propos de <span>Moi</span>",
-        aboutWho: "Qui je suis",
+        aboutTitle: "À propos de <span>Moi</span>", aboutWho: "Qui je suis",
         aboutText1: "Je suis passionné par la technologie, alliant des bases scientifiques à la pratique de la programmation. Actuellement, je travaille au Département de la Santé de Caieiras tout en terminant la 6ème période de Génie Informatique.",
         aboutText2: "De plus, j'améliore continuellement mes compétences linguistiques en maîtrisant l'anglais (B2 CEFR), en étudiant le français et en apprenant le russe, ce qui enrichit ma capacité à collaborer à l'international.",
-        statProjects: "Projets Réalisés",
-        statExperience: "Années d'Expérience",
-        statLanguages: "Langues",
-        statPeriod: "Période",
-        skillsTitle: "Mes <span>Compétences</span>",
-        techSkills: "Compétences Techniques",
-        languageSkills: "Langues",
-        english: "Anglais (B2 CEFR)",
-        french: "Français",
-        russian: "Russe",
-        portfolioTitle: "Mon <span>Portfolio</span>",
-        proj1: "Projet Web Accessible",
-        proj2: "Projet de Modélisation 3D",
-        proj3: "Projet de Modélisation 3D",
-        proj4: "Application Web PHP/Java",
+        statProjects: "Projets Réalisés", statExperience: "Années d'Expérience", statLanguages: "Langues", statPeriod: "Période",
+        principlesTitle: "Mes <span>Principes</span>",
+        principle1Title: "Ingénierie Scientifique", principle1Desc: "Je décompose les problèmes complexes à leurs fondements, comme en physique des fusées, pour bâtir des solutions logiques, efficaces et robustes.",
+        principle2Title: "Technologie à But Humain", principle2Desc: "Mon expérience en santé publique m'a appris que chaque ligne de code peut impacter des vies. L'objectif est toujours le bien-être et l'efficacité des soins.",
+        principle3Title: "Vision du Marché", principle3Desc: "Une solution technique n'est complète que si elle génère de la valeur. J'analyse le contexte pour assurer que la technologie réponde durablement à un besoin réel du marché.",
+        skillsTitle: "Mes <span>Compétences</span>", techSkills: "Compétences Techniques", languageSkills: "Langues", english: "Anglais (B2 CEFR)", french: "Français", russian: "Russe",
+        portfolioTitle: "Mon <span>Portfolio</span>", filterAll: "Tous", filterWeb: "Développement Web", filter3D: "Modélisation 3D",
+        proj1: "Lois de l'Accessibilité en Santé", proj2: "Visualisation de Systèmes Complexes", proj3: "Ingénierie d'Environnements Virtuels", proj4: "Optimisation des Flux (Analyse Marché)",
         contactTitle: "Contactez <span>Moi</span>",
-        contactText: "Je suis ouvert à de nouvelles opportunités et collaborations. N'hésitez pas à me contacter via les informations ci-dessous."
+        contactText: "Je suis ouvert à de nouvelles opportunités. N'hésitez pas à me contacter via les informations ci-dessous ou le formulaire.",
+        formTitle: "Envoyez-moi un Message", formName: "Votre Nom", formEmail: "Votre Email", formSubject: "Sujet", formMessage: "Message", formSubmitBtn: "Envoyer le Message",
+        formSuccess: "Message envoyé avec succès ! Merci de m'avoir contacté.", formError: "Échec de l'envoi du message. Veuillez réessayer plus tard."
       },
       ru: {
-        navHome: "Главная",
-        navAbout: "Обо мне",
-        navSkills: "Навыки",
-        navPortfolio: "Портфолио",
-        navContact: "Контакты",
-        heroTitle: "Привет, я <span>Maurício Matheus</span>",
-        heroSubtitle: "Студент компьютерной инженерии",
-        heroDescription: "Я работаю в Департаменте здравоохранения Каейрас и учусь на 6‑м курсе компьютерной инженерии. Увлечён технологиями, я постоянно ищу вызовы, чтобы учиться и внедрять инновации.",
+        navHome: "Главная", navAbout: "Обо мне", navSkills: "Навыки", navPortfolio: "Портфолио", navContact: "Контакты",
+        heroTitle: "Строим будущее с <span>Наукой и Кодом</span>",
+        heroSubtitle: "Компьютерная инженерия с фокусом на Системы Здравоохранения и Анализ Рынка",
+        heroDescription: "Я применяю первые принципы науки и математики для создания решений, которые не просто работают, а решают реальные проблемы здравоохранения и создают рыночную ценность.",
         heroBtn: "Скачать резюме",
         initMessage: "Эти навыки не определяют человека; человек способен достичь луны и увидеть горизонты, но ему не нужна школа – нужна книга. Пожалуйста, не требуйте от своей команды слишком многого.",
-        aboutTitle: "О <span>мене</span>",
-        aboutWho: "Кто я",
+        aboutTitle: "О <span>мене</span>", aboutWho: "Кто я",
         aboutText1: "Я энтузиаст технологий, сочетающий научные основы с практикой программирования. Сейчас я работаю в Департаменте здравоохранения Каейрас, завершая 6‑й курс компьютерной инженерии.",
         aboutText2: "Кроме того, я постоянно совершенствую свои языковые навыки, изучая английский (B2 CEFR), французский и русский, что расширяет мои возможности для международного сотрудничества.",
-        statProjects: "Завершенные проекты",
-        statExperience: "Лет опыта",
-        statLanguages: "Языки",
-        statPeriod: "Курс",
-        skillsTitle: "Мои <span>Навыки</span>",
-        techSkills: "Технические навыки",
-        languageSkills: "Языки",
-        english: "Английский (B2 CEFR)",
-        french: "Французский",
-        russian: "Русский",
-        portfolioTitle: "Мое <span>Портфолио</span>",
-        proj1: "Доступный веб-проект",
-        proj2: "Проект 3D моделирования",
-        proj3: "Проект 3D моделирования",
-        proj4: "Веб-приложение на PHP/Java",
+        statProjects: "Завершенные проекты", statExperience: "Лет опыта", statLanguages: "Языки", statPeriod: "Курс",
+        principlesTitle: "Мои <span>Принципы</span>",
+        principle1Title: "Научная инженерия", principle1Desc: "Я раскладываю сложные проблемы на основы, как в ракетостроении, чтобы создавать логичные, эффективные и надежные решения.",
+        principle2Title: "Технологии для людей", principle2Desc: "Мой опыт в здравоохранении научил меня, что каждая строка кода может влиять на жизни. Цель — благополучие и эффективность.",
+        principle3Title: "Рыночное видение", principle3Desc: "Техническое решение полноценно, только если оно создает ценность. Я анализирую рынок, чтобы технология отвечала реальным потребностям.",
+        skillsTitle: "Мои <span>Навыки</span>", techSkills: "Технические навыки", languageSkills: "Языки", english: "Английский (B2 CEFR)", french: "Французский", russian: "Русский",
+        portfolioTitle: "Мое <span>Портфолио</span>", filterAll: "Все", filterWeb: "Веб-разработка", filter3D: "3D-моделирование",
+        proj1: "Законы доступности в здравоохранении", proj2: "Визуализация сложных систем", proj3: "Инженерия виртуальных сред", proj4: "Оптимизация процессов (анализ рынка)",
         contactTitle: "Свяжитесь <span>со мной</span>",
-        contactText: "Я открыт для новых возможностей и сотрудничества. Пожалуйста, свяжитесь со мной по указанным ниже контактам."
+        contactText: "Я открыт для новых возможностей. Свяжитесь со мной по указанным контактам или через форму.",
+        formTitle: "Отправьте мне сообщение", formName: "Ваше имя", formEmail: "Ваш Email", formSubject: "Тема", formMessage: "Сообщение", formSubmitBtn: "Отправить сообщение",
+        formSuccess: "Сообщение успешно отправлено! Спасибо.", formError: "Не удалось отправить сообщение. Пожалуйста, попробуйте еще раз."
       },
       zh: {
-        navHome: "主页",
-        navAbout: "关于",
-        navSkills: "技能",
-        navPortfolio: "作品集",
-        navContact: "联系",
-        heroTitle: "你好，我是 <span>Maurício Matheus</span>",
-        heroSubtitle: "计算机工程学生",
-        heroDescription: "我在 Caieiras 卫生局工作，并且是计算机工程的第6学期。热爱科技，我不断寻找能让我学习与创新的挑战。",
+        navHome: "主页", navAbout: "关于", navSkills: "技能", navPortfolio: "作品集", navContact: "联系",
+        heroTitle: "用<span>科学与代码</span>构建未来",
+        heroSubtitle: "专注于卫生系统和市场分析的计算机工程",
+        heroDescription: "我运用科学和数学的第一性原理来设计解决方案，这些方案不仅能正常工作，还能解决现实世界的公共卫生挑战并创造市场价值。",
         heroBtn: "下载简历",
         initMessage: "这些技能不能定义一个人；一个人有能力登月看世界，但他不需要学校，只需要一本书。所以，请不要对你的团队要求过高。",
-        aboutTitle: "关于 <span>我</span>",
-        aboutWho: "我是谁",
+        aboutTitle: "关于 <span>我</span>", aboutWho: "我是谁",
         aboutText1: "我是一个热爱技术的人，将科学基础与编程实践相结合。目前，我在 Caieiras 卫生局工作，同时完成计算机工程的第6学期。",
         aboutText2: "此外，我不断提升语言能力，掌握英语（B2 CEFR），学习法语和俄语，从而增强我国际合作的能力。",
-        statProjects: "完成项目",
-        statExperience: "工作年限",
-        statLanguages: "语言",
-        statPeriod: "学期",
-        skillsTitle: "我的 <span>技能</span>",
-        techSkills: "技术技能",
-        languageSkills: "语言",
-        english: "英语 (B2 CEFR)",
-        french: "法语",
-        russian: "俄语",
-        portfolioTitle: "我的 <span>作品集</span>",
-        proj1: "无障碍网页项目",
-        proj2: "3D建模项目",
-        proj3: "3D建模项目",
-        proj4: "PHP/Java网页应用",
+        statProjects: "完成项目", statExperience: "工作年限", statLanguages: "语言", statPeriod: "学期",
+        principlesTitle: "我的<span>原则</span>",
+        principle1Title: "科学驱动的工程", principle1Desc: "我像火箭科学一样，将复杂问题分解为其基本原理，以构建逻辑严谨、高效且稳健的解决方案。",
+        principle2Title: "以人为本的技术", principle2Desc: "在公共卫生领域的经验告诉我，每一行代码都可能影响生命。目标永远是提升福祉和关怀效率。",
+        principle3Title: "市场洞察力", principle3Desc: "一个技术方案只有在创造价值时才算完整。我分析市场格局，确保技术能可持续地满足真实的市场需求。",
+        skillsTitle: "我的 <span>技能</span>", techSkills: "技术技能", languageSkills: "语言", english: "英语 (B2 CEFR)", french: "法语", russian: "俄语",
+        portfolioTitle: "我的 <span>作品集</span>", filterAll: "所有", filterWeb: "网页开发", filter3D: "3D建模",
+        proj1: "健康信息无障碍法则", proj2: "复杂系统可视化", proj3: "虚拟环境工程", proj4: "工作流程优化（市场分析）",
         contactTitle: "联系我们",
-        contactText: "我开放于新的机遇和合作。请通过下方信息与我联系。"
+        contactText: "我乐于接受新的机遇和合作。请通过以下方式或表格与我联系。",
+        formTitle: "给我留言", formName: "您的姓名", formEmail: "您的邮箱", formSubject: "主题", formMessage: "消息", formSubmitBtn: "发送消息",
+        formSuccess: "消息发送成功！感谢您的联系。", formError: "消息发送失败。请稍后再试。"
       },
       de: {
-        navHome: "Startseite",
-        navAbout: "Über mich",
-        navSkills: "Fähigkeiten",
-        navPortfolio: "Portfolio",
-        navContact: "Kontakt",
-        heroTitle: "Hallo, ich bin <span>Maurício Matheus</span>",
-        heroSubtitle: "Student der Informatik",
-        heroDescription: "Ich arbeite beim Gesundheitsamt von Caieiras und studiere im 6. Semester Computer Engineering. Technikbegeistert suche ich ständig nach Herausforderungen, um zu lernen und zu innovieren.",
+        navHome: "Startseite", navAbout: "Über mich", navSkills: "Fähigkeiten", navPortfolio: "Portfolio", navContact: "Kontakt",
+        heroTitle: "Zukunft gestalten mit <span>Wissenschaft und Code</span>",
+        heroSubtitle: "Computer Engineering mit Fokus auf Gesundheitssysteme und Marktanalyse",
+        heroDescription: "Ich wende Grundprinzipien aus Wissenschaft und Mathematik an, um Lösungen zu entwickeln, die nicht nur funktionieren, sondern reale Probleme im öffentlichen Gesundheitswesen lösen und Marktwert schaffen.",
         heroBtn: "Lebenslauf herunterladen",
         initMessage: "Diese Fähigkeiten definieren keinen Menschen; ein Mensch kann den Mond erreichen und Horizonte sehen, aber er braucht keine Schule, sondern nur ein Buch. Bitte fordern Sie also nicht zu viel von Ihrem Team.",
-        aboutTitle: "Über <span>mich</span>",
-        aboutWho: "Wer ich bin",
+        aboutTitle: "Über <span>mich</span>", aboutWho: "Wer ich bin",
         aboutText1: "Ich bin ein Technologie-Enthusiast, der wissenschaftliche Grundlagen mit praktischer Programmierung kombiniert. Derzeit arbeite ich beim Gesundheitsamt von Caieiras und beende das 6. Semester des Computer Engineering.",
         aboutText2: "Außerdem verbessere ich kontinuierlich meine Sprachkenntnisse, indem ich Englisch (B2 CEFR) beherrsche, Französisch lerne und Russisch studiere, was meine Fähigkeit zur internationalen Zusammenarbeit erweitert.",
-        statProjects: "Abgeschlossene Projekte",
-        statExperience: "Berufserfahrung (Jahre)",
-        statLanguages: "Sprachen",
-        statPeriod: "Semester",
-        skillsTitle: "Meine <span>Fähigkeiten</span>",
-        techSkills: "Technische Fähigkeiten",
-        languageSkills: "Sprachen",
-        english: "Englisch (B2 CEFR)",
-        french: "Französisch",
-        russian: "Russisch",
-        portfolioTitle: "Mein <span>Portfolio</span>",
-        proj1: "Barrierefreies Webprojekt",
-        proj2: "3D-Modellierungsprojekt",
-        proj3: "3D-Modellierungsprojekt",
-        proj4: "PHP/Java Web-App",
+        statProjects: "Abgeschlossene Projekte", statExperience: "Berufserfahrung (Jahre)", statLanguages: "Sprachen", statPeriod: "Semester",
+        principlesTitle: "Meine <span>Prinzipien</span>",
+        principle1Title: "Wissenschaftsbasiertes Engineering", principle1Desc: "Ich zerlege komplexe Probleme in ihre Grundlagen, wie in der Raketenwissenschaft, um logische, effiziente und robuste Lösungen zu entwickeln.",
+        principle2Title: "Technologie mit menschlichem Zweck", principle2Desc: "Meine Erfahrung im Gesundheitswesen hat mich gelehrt, dass jede Codezeile Leben beeinflussen kann. Das Ziel ist immer Wohlbefinden und Effizienz.",
+        principle3Title: "Marktbewusstes Handeln", principle3Desc: "Eine technische Lösung ist nur dann vollständig, wenn sie Wert schafft. Ich analysiere das Umfeld, um sicherzustellen, dass die Technologie einen echten Marktbedarf nachhaltig erfüllt.",
+        skillsTitle: "Meine <span>Fähigkeiten</span>", techSkills: "Technische Fähigkeiten", languageSkills: "Sprachen", english: "Englisch (B2 CEFR)", french: "Französisch", russian: "Russisch",
+        portfolioTitle: "Mein <span>Portfolio</span>", filterAll: "Alle", filterWeb: "Webentwicklung", filter3D: "3D-Modellierung",
+        proj1: "Gesetze der Barrierefreiheit im Gesundheitswesen", proj2: "Visualisierung komplexer Systeme", proj3: "Virtuelle Umgebungsgestaltung", proj4: "Workflow-Optimierung (Marktanalyse)",
         contactTitle: "Nehmen Sie <span>Kontakt</span> auf",
-        contactText: "Ich bin offen für neue Möglichkeiten und Partnerschaften. Bitte kontaktieren Sie mich über die unten angegebenen Details."
+        contactText: "Ich bin offen für neue Möglichkeiten. Kontaktieren Sie mich über die unten angegebenen Details oder das Formular.",
+        formTitle: "Senden Sie mir eine Nachricht", formName: "Ihr Name", formEmail: "Ihre E-Mail", formSubject: "Betreff", formMessage: "Nachricht", formSubmitBtn: "Nachricht senden",
+        formSuccess: "Nachricht erfolgreich gesendet! Vielen Dank.", formError: "Nachricht konnte nicht gesendet werden. Bitte versuchen Sie es später erneut."
       }
     };
 
-    // Atualiza textos conforme idioma selecionado
-    function updateLanguage(lang) {
-      document.querySelectorAll('[data-key]').forEach(el => {
-        const key = el.getAttribute('data-key');
-        if (translations[lang] && translations[lang][key]) {
-          el.innerHTML = translations[lang][key];
+    document.addEventListener('DOMContentLoaded', () => {
+      let currentLang = 'pt';
+
+      function typeWriter(element, text, speed = 50) {
+        let i = 0;
+        element.innerHTML = '';
+        const cursor = '<span class="cursor"></span>';
+        element.innerHTML = cursor;
+        function typing() {
+          if (i < text.length) {
+            element.innerHTML = text.substring(0, i + 1) + cursor;
+            i++;
+            setTimeout(typing, speed);
+          } else {
+            element.querySelector('.cursor').style.animation = 'blink 1s infinite';
+          }
+        }
+        typing();
+      }
+
+      function updateLanguage(lang) {
+        document.querySelectorAll('[data-key]').forEach(el => {
+          const key = el.getAttribute('data-key');
+          if (key === 'heroSubtitle') {
+            const subtitleEl = document.querySelector('.subtitle[data-key="heroSubtitle"]');
+            typeWriter(subtitleEl, translations[lang][key]);
+          } else if (translations[lang] && translations[lang][key]) {
+            el.innerHTML = translations[lang][key];
+          }
+        });
+        const heroBtnSpan = document.querySelector('.cta-btn span');
+        if (heroBtnSpan) { heroBtnSpan.textContent = translations[lang]['heroBtn']; }
+        currentLang = lang;
+      }
+
+      function animateValue(obj, start, end, duration) {
+        let startTimestamp = null;
+        const step = (timestamp) => {
+          if (!startTimestamp) startTimestamp = timestamp;
+          const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+          obj.innerHTML = Math.floor(progress * (end - start) + start);
+          if (progress < 1) {
+            window.requestAnimationFrame(step);
+          } else {
+            obj.innerHTML = obj.dataset.originalContent;
+          }
+        };
+        window.requestAnimationFrame(step);
+      }
+
+      const mobileNavToggle = document.querySelector('.mobile-nav-toggle');
+      const navLinks = document.querySelector('nav ul');
+      mobileNavToggle.addEventListener('click', () => { navLinks.classList.toggle('active'); });
+      document.querySelectorAll('nav ul li a').forEach(link => { link.addEventListener('click', () => { navLinks.classList.remove('active'); }); });
+
+      document.querySelectorAll('.lang-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          updateLanguage(btn.getAttribute('data-lang'));
+        });
+      });
+
+      const themeToggle = document.querySelector('.theme-toggle');
+      themeToggle.addEventListener('click', () => {
+        document.body.classList.toggle('dark-mode');
+        const icon = themeToggle.querySelector('i');
+        const isDarkMode = document.body.classList.contains('dark-mode');
+        icon.className = isDarkMode ? 'fas fa-sun' : 'fas fa-moon';
+        localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
+      });
+
+      const savedTheme = localStorage.getItem('theme');
+      if (savedTheme === 'dark') {
+        document.body.classList.add('dark-mode');
+        themeToggle.querySelector('i').className = 'fas fa-sun';
+      }
+
+      const observer = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+            
+            if (entry.target.classList.contains('skill-bar')) {
+              const progressEl = entry.target.querySelector('.progress');
+              progressEl.style.width = entry.target.dataset.progress + '%';
+            }
+
+            if(entry.target.classList.contains('stats-grid')) {
+              entry.target.querySelectorAll('.number').forEach(num => {
+                num.dataset.originalContent = num.textContent;
+                const endValue = parseInt(num.textContent.replace(/\D/g, ''));
+                if (!isNaN(endValue)) {
+                  animateValue(num, 0, endValue, 1500);
+                }
+              });
+            }
+
+            const children = entry.target.querySelectorAll('.principle-item, .portfolio-item, .stat-item, .skill-bar');
+            if(children.length > 0) {
+                children.forEach((child, index) => {
+                    child.style.transitionDelay = `${index * 100}ms`;
+                });
+            }
+
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.2 });
+
+      document.querySelectorAll('.animate-on-scroll, .skill-bar').forEach(el => observer.observe(el));
+
+      const filterButtons = document.querySelectorAll('.portfolio-filter .filter-btn');
+      const portfolioItems = document.querySelectorAll('.portfolio-item');
+      filterButtons.forEach(button => {
+        button.addEventListener('click', () => {
+          filterButtons.forEach(btn => btn.classList.remove('active'));
+          button.classList.add('active');
+          const filter = button.dataset.filter;
+          portfolioItems.forEach(item => { item.style.display = (filter === 'all' || filter === item.dataset.category) ? 'block' : 'none'; });
+        });
+      });
+      
+      const backToTopButton = document.getElementById('back-to-top');
+      window.addEventListener('scroll', () => {
+        if (window.scrollY > 300) {
+          backToTopButton.classList.add('visible');
+        } else {
+          backToTopButton.classList.remove('visible');
         }
       });
-    }
 
-    // Inicia com o idioma inglês
-    updateLanguage('en');
-
-    // Seletor de idioma
-    document.querySelectorAll('.lang-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        const selectedLang = btn.getAttribute('data-lang');
-        updateLanguage(selectedLang);
+      const contactForm = document.getElementById('contactForm');
+      contactForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const formStatus = document.getElementById('formStatus');
+        const submitBtn = contactForm.querySelector('.form-submit-btn');
+        const loadingSpinner = contactForm.querySelector('.loading-spinner');
+        submitBtn.disabled = true; loadingSpinner.style.display = 'block'; formStatus.textContent = '';
+        try {
+          const response = await fetch(GOOGLE_SHEETS_WEB_APP_URL, { method: 'POST', body: new FormData(contactForm) });
+          const result = await response.json();
+          if (result.result === 'success') {
+            formStatus.textContent = translations[currentLang]['formSuccess']; formStatus.className = 'form-status success'; contactForm.reset();
+          } else { throw new Error(result.message); }
+        } catch (error) {
+          formStatus.textContent = translations[currentLang]['formError']; formStatus.className = 'form-status error';
+        } finally {
+          submitBtn.disabled = false; loadingSpinner.style.display = 'none';
+        }
       });
+
+      document.querySelector(`.lang-btn[data-lang="${currentLang}"]`).classList.add('active');
+      updateLanguage(currentLang);
     });
-
-    // Animação das barras de habilidades
-    const skillBars = document.querySelectorAll('.skill-bar');
-    const animateSkills = () => {
-      skillBars.forEach(bar => {
-        const progressEl = bar.querySelector('.progress');
-        const target = bar.getAttribute('data-progress');
-        progressEl.style.width = target + '%';
-      });
-    };
-
-    // Observer para acionar animação ao entrar na viewport
-    const skillsSection = document.getElementById('skills');
-    const observer = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          animateSkills();
-          observer.unobserve(skillsSection);
-        }
-      });
-    }, { threshold: 0.5 });
-
-    observer.observe(skillsSection);
-    
-     // Typing Effect
-    function typeWriter(element, text, speed = 50) {
-      let i = 0;
-      function typing() {
-        if (i < text.length) {
-          element.innerHTML += text.charAt(i);
-          i++;
-          setTimeout(typing, speed);
-        }
-      }
-      typing();
-    }
   </script>
 </body>
 </html>
