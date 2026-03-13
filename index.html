@@ -53,7 +53,62 @@
     html { scroll-behavior: smooth; }
     * { margin: 0; padding: 0; box-sizing: border-box; }
     
+    /* Previne scroll durante a tela de intro */
+    body.locked { overflow: hidden; height: 100vh; }
+    
     body { font-family: 'Roboto Mono', 'Inter', sans-serif; background-color: var(--bg-color); color: var(--text-color); transition: background-color 0.4s ease, color 0.4s ease; overflow-x: hidden; line-height: 1.7; cursor: default; perspective: 1000px; }
+
+    /* --- TELA DE INTRODUÇÃO (BOOT SCREEN) --- */
+    #intro-screen {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
+      background-color: #050505; color: #64f4ac; z-index: 10000;
+      display: flex; flex-direction: column; justify-content: center; align-items: center;
+      transition: opacity 1s ease-in-out, transform 1s ease-in-out, visibility 1s;
+      font-family: 'Roboto Mono', monospace;
+    }
+    
+    #intro-screen::after { /* Efeito CRT Scanline */
+      content: " "; display: block; position: absolute; top: 0; left: 0; bottom: 0; right: 0;
+      background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+      z-index: 2; background-size: 100% 2px, 3px 100%; pointer-events: none;
+    }
+
+    #intro-screen.hidden { opacity: 0; transform: scale(1.1); visibility: hidden; }
+
+    .intro-content { z-index: 3; text-align: center; max-width: 800px; padding: 2rem; }
+    
+    .glitch-wrapper { margin-bottom: 2rem; }
+    .glitch { font-size: 2.5rem; font-weight: 700; position: relative; text-shadow: 0.05em 0 0 rgba(255,0,0,0.75), -0.025em -0.05em 0 rgba(0,255,0,0.75), 0.025em 0.05em 0 rgba(0,0,255,0.75); animation: glitch 500ms infinite; }
+    .glitch span { position: absolute; top: 0; left: 0; }
+    
+    @keyframes glitch {
+      0% { text-shadow: 0.05em 0 0 rgba(255,0,0,0.75), -0.05em -0.025em 0 rgba(0,255,0,0.75), -0.025em 0.05em 0 rgba(0,0,255,0.75); }
+      14% { text-shadow: 0.05em 0 0 rgba(255,0,0,0.75), -0.05em -0.025em 0 rgba(0,255,0,0.75), -0.025em 0.05em 0 rgba(0,0,255,0.75); }
+      15% { text-shadow: -0.05em -0.025em 0 rgba(255,0,0,0.75), 0.025em 0.025em 0 rgba(0,255,0,0.75), -0.05em -0.05em 0 rgba(0,0,255,0.75); }
+      49% { text-shadow: -0.05em -0.025em 0 rgba(255,0,0,0.75), 0.025em 0.025em 0 rgba(0,255,0,0.75), -0.05em -0.05em 0 rgba(0,0,255,0.75); }
+      50% { text-shadow: 0.025em 0.05em 0 rgba(255,0,0,0.75), 0.05em 0 0 rgba(0,255,0,0.75), 0 -0.05em 0 rgba(0,0,255,0.75); }
+      99% { text-shadow: 0.025em 0.05em 0 rgba(255,0,0,0.75), 0.05em 0 0 rgba(0,255,0,0.75), 0 -0.05em 0 rgba(0,0,255,0.75); }
+      100% { text-shadow: -0.025em 0 0 rgba(255,0,0,0.75), -0.025em -0.025em 0 rgba(0,255,0,0.75), -0.025em -0.05em 0 rgba(0,0,255,0.75); }
+    }
+
+    .intro-text { font-size: 1.1rem; margin-bottom: 3rem; opacity: 0.8; letter-spacing: 2px; text-transform: uppercase; }
+
+    .flag-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+    
+    .flag-btn {
+      background: rgba(100, 244, 172, 0.05); border: 1px solid rgba(100, 244, 172, 0.3);
+      padding: 1.5rem; border-radius: 12px; cursor: pointer; color: #fff;
+      display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.8rem;
+      transition: all 0.3s ease; font-family: 'Roboto Mono', monospace; font-weight: bold;
+      box-shadow: 0 0 15px rgba(0,0,0,0.5);
+    }
+    
+    .flag-btn:hover {
+      background: rgba(100, 244, 172, 0.2); border-color: #64f4ac;
+      transform: translateY(-5px) scale(1.05); box-shadow: 0 10px 30px rgba(100, 244, 172, 0.3);
+    }
+
+    .flag-icon { font-size: 2.5rem; line-height: 1; filter: drop-shadow(0 0 5px rgba(255,255,255,0.3)); }
     
     /* Scroll Progress Bar */
     #scroll-progress {
@@ -142,9 +197,7 @@
         transition: all 0.2s ease; 
         letter-spacing: 1px; text-transform: uppercase; font-size: 0.9rem; border: none; cursor: pointer; 
         box-shadow: 0 6px 0 #1e8e5a, 0 10px 10px rgba(0,0,0,0.2); 
-        transform: translateY(0);
-        position: relative;
-        top: 0;
+        transform: translateY(0); position: relative; top: 0;
     }
     body:not(.dark-mode) .cta-btn { color: #fff; box-shadow: 0 6px 0 #222, 0 10px 10px rgba(0,0,0,0.2); }
     body.dark-mode .cta-btn { box-shadow: 0 6px 0 #0f5a35, 0 10px 20px rgba(100, 244, 172, 0.3); }
@@ -155,7 +208,7 @@
     .hero-image img { max-width: 90%; border-radius: 20px; box-shadow: var(--box-shadow); animation: float 6s ease-in-out infinite; }
     @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
     
-    /* --- ABOUT --- */
+    /* --- RESTANTE DO CSS (INALTERADO) --- */
     .init-message { background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)); color: #1a1a1a; padding: 2rem; margin: -4rem auto 2rem; max-width: 900px; border-radius: 12px; text-align: center; font-style: italic; position: relative; z-index: 10; box-shadow: 0 15px 40px rgba(0,0,0,0.15); font-weight: 600; transform: perspective(500px) rotateX(2deg); }
     .about-content { display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 4rem; align-items: start; }
     .about-info h3 { font-size: 2rem; margin-bottom: 1.5rem; color: var(--heading-color); }
@@ -168,7 +221,6 @@
     .stat-item { background-color: var(--card-bg-color); padding: 2rem; border-radius: 16px; box-shadow: var(--box-shadow); text-align: center; transition: var(--transition); border: 1px solid transparent; transform-style: preserve-3d; }
     .stat-item .number { font-size: 3rem; font-weight: 700; color: var(--primary-color); margin-bottom: 0.5rem; line-height: 1; transform: translateZ(20px); text-shadow: 0 5px 15px rgba(0,0,0,0.1); }
     
-    /* --- PRINCIPLES --- */
     .principles { background-color: var(--card-bg-color); }
     .principles-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; }
     .principle-item { padding: 2.5rem; background-color: var(--bg-color); border-radius: 16px; box-shadow: var(--box-shadow); transition: var(--transition); position: relative; overflow: hidden; height: 100%; transform-style: preserve-3d; }
@@ -177,7 +229,6 @@
     .principle-item:hover::before { width: 100%; opacity: 0.1; }
     .principle-icon { font-size: 2.5rem; color: var(--primary-color); margin-bottom: 1.5rem; background: rgba(100, 244, 172, 0.1); width: 70px; height: 70px; display: flex; align-items: center; justify-content: center; border-radius: 50%; transform: translateZ(30px); box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
     
-    /* --- SKILLS --- */
     .skills-content { max-width: 900px; margin: 0 auto; }
     .skill-category { margin-bottom: 4rem; }
     .skill-bars { display: grid; gap: 1.8rem; }
@@ -187,7 +238,6 @@
     .skill-bar .bar { position: absolute; bottom: 0; left: 0; height: 6px; width: 100%; background-color: rgba(0,0,0,0.05); }
     .skill-bar .progress { height: 100%; background-color: var(--primary-color); width: 0; transition: width 1.5s cubic-bezier(0.22, 1, 0.36, 1); box-shadow: 0 0 10px var(--primary-color); }
 
-    /* --- HOBBIES --- */
     .hobbies { background-color: var(--bg-color); }
     .hobbies-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; }
     .hobby-card { background: var(--card-bg-color); border-radius: 16px; padding: 2rem; text-align: center; box-shadow: var(--box-shadow); transition: var(--transition); border: 1px solid transparent; transform-style: preserve-3d; }
@@ -196,52 +246,30 @@
     .hobby-card h3 { margin-bottom: 0.5rem; color: var(--heading-color); transform: translateZ(15px); }
     .hobby-card p { font-size: 0.9rem; opacity: 0.8; transform: translateZ(10px); }
     
-    /* --- FEATURED PROJECT --- */
     .featured-wrapper { margin-bottom: 5rem; perspective: 1500px; }
-    .featured-project { 
-        display: grid; grid-template-columns: 1.2fr 0.8fr; 
-        background: var(--card-bg-color); border-radius: 24px; 
-        overflow: visible;
-        box-shadow: 0 20px 50px rgba(0,0,0,0.15);
-        border: 1px solid rgba(100, 244, 172, 0.1); position: relative;
-        transform-style: preserve-3d; 
-    }
-    
+    .featured-project { display: grid; grid-template-columns: 1.2fr 0.8fr; background: var(--card-bg-color); border-radius: 24px; overflow: visible; box-shadow: 0 20px 50px rgba(0,0,0,0.15); border: 1px solid rgba(100, 244, 172, 0.1); position: relative; transform-style: preserve-3d; }
     .featured-content { padding: 3.5rem; display: flex; flex-direction: column; justify-content: center; z-index: 2; transform: translateZ(40px); }
-    .featured-label { 
-        display: inline-block; background: rgba(100, 244, 172, 0.15); 
-        color: var(--primary-color); padding: 0.4rem 1rem; border-radius: 50px; 
-        font-size: 0.75rem; font-weight: 800; text-transform: uppercase; 
-        letter-spacing: 1.5px; width: fit-content; margin-bottom: 1.5rem;
-        border: 1px solid rgba(100, 244, 172, 0.3);
-        box-shadow: 0 0 15px rgba(100, 244, 172, 0.2);
-    }
+    .featured-label { display: inline-block; background: rgba(100, 244, 172, 0.15); color: var(--primary-color); padding: 0.4rem 1rem; border-radius: 50px; font-size: 0.75rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1.5px; width: fit-content; margin-bottom: 1.5rem; border: 1px solid rgba(100, 244, 172, 0.3); box-shadow: 0 0 15px rgba(100, 244, 172, 0.2); }
     .featured-content h3 { font-size: 2.5rem; margin-bottom: 1rem; color: var(--heading-color); line-height: 1.1; }
     .featured-content p { margin-bottom: 2rem; opacity: 0.9; font-size: 1.05rem; max-width: 90%; }
-
     .tech-stack { display: flex; flex-wrap: wrap; gap: 0.8rem; margin-bottom: 2.5rem; }
     .tech-stack li { font-family: 'Roboto Mono', monospace; font-size: 0.8rem; color: var(--text-color); background: var(--bg-color); padding: 0.4rem 0.8rem; border-radius: 6px; border: 1px solid rgba(0,0,0,0.1); font-weight: 500; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
     body.dark-mode .tech-stack li { border-color: rgba(255,255,255,0.1); }
-    
     .featured-image { position: relative; overflow: hidden; min-height: 400px; border-radius: 0 24px 24px 0; transform: translateZ(20px); }
     .featured-image iframe { width: 100%; height: 100%; border: none; position: absolute; top: 0; left: 0; }
-    
     .btn-outline { padding: 0.8rem 1.8rem; border: 2px solid var(--heading-color); color: var(--heading-color); border-radius: 50px; font-weight: 600; transition: var(--transition); display: inline-flex; align-items: center; gap: 0.5rem; background: transparent; cursor: pointer; }
     .btn-outline:hover { background: var(--heading-color); color: var(--bg-color); transform: translateY(-3px); box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
     body.dark-mode .btn-outline { border-color: var(--primary-color); color: var(--primary-color); }
     body.dark-mode .btn-outline:hover { background: var(--primary-color); color: #000; box-shadow: 0 0 15px rgba(100, 244, 172, 0.4); }
 
-    /* --- PORTFOLIO GRID --- */
     .portfolio-filter { margin-bottom: 3.5rem; display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap; }
     .filter-btn { background: transparent; color: var(--text-color); border: none; padding: 0.5rem 1.5rem; cursor: pointer; transition: var(--transition); font-weight: 600; font-family: 'Inter', sans-serif; position: relative; font-size: 1rem; }
     .filter-btn.active, .filter-btn:hover { color: var(--primary-color); text-shadow: 0 0 10px var(--primary-color); }
     .filter-btn::after { content: ''; position: absolute; width: 0%; height: 2px; bottom: 0; left: 50%; transform: translateX(-50%); background-color: var(--primary-color); transition: width 0.3s; box-shadow: 0 0 5px var(--primary-color); }
     .filter-btn.active::after, .filter-btn:hover::after { width: 80%; }
-    
     .portfolio-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 2.5rem; perspective: 1000px; }
     .portfolio-item { position: relative; overflow: hidden; border-radius: 16px; background: var(--card-bg-color); box-shadow: var(--box-shadow); transition: var(--transition); transform-style: preserve-3d; }
     .portfolio-item img { width: 100%; height: 260px; object-fit: cover; transition: transform 0.5s ease; }
-    
     .portfolio-info { padding: 1.5rem; position: absolute; bottom: 0; left: 0; width: 100%; background: linear-gradient(to top, rgba(0,0,0,0.95) 10%, rgba(0,0,0,0.7) 60%, transparent); transform: translateY(50%) translateZ(20px); transition: transform 0.4s ease; }
     .portfolio-item:hover .portfolio-info { transform: translateY(0) translateZ(30px); }
     .portfolio-info h3 { color: #fff; font-size: 1.3rem; margin-bottom: 0.3rem; text-shadow: 0 2px 5px rgba(0,0,0,0.5); }
@@ -251,7 +279,6 @@
     .portfolio-links-mini a { width: 40px; height: 40px; border-radius: 50%; background: rgba(255,255,255,0.2); backdrop-filter: blur(5px); display: flex; align-items: center; justify-content: center; color: #fff; transition: var(--transition); }
     .portfolio-links-mini a:hover { background: var(--primary-color); color: #000; transform: scale(1.1); }
     
-    /* --- CONTACT --- */
     .contact { background-color: var(--card-bg-color); position: relative; overflow: hidden; }
     .cube-container { position: absolute; bottom: 50px; right: 5%; width: 100px; height: 100px; perspective: 800px; z-index: 0; opacity: 0.4; pointer-events: none; }
     .cube { width: 100%; height: 100%; position: relative; transform-style: preserve-3d; animation: rotateCube 10s infinite linear; }
@@ -282,8 +309,7 @@
     
     .form-submit-btn { 
         width: 100%; background-color: var(--primary-color); color: #000; border: none; padding: 1.2rem; border-radius: 8px; font-size: 1.1rem; font-weight: 700; cursor: pointer; transition: all 0.2s ease; text-transform: uppercase; letter-spacing: 1px; 
-        box-shadow: 0 6px 0 #1e8e5a, 0 10px 10px rgba(0,0,0,0.1); 
-        position: relative; top: 0;
+        box-shadow: 0 6px 0 #1e8e5a, 0 10px 10px rgba(0,0,0,0.1); position: relative; top: 0;
     }
     body:not(.dark-mode) .form-submit-btn { color: #fff; box-shadow: 0 6px 0 #222, 0 10px 10px rgba(0,0,0,0.1); }
     body.dark-mode .form-submit-btn { box-shadow: 0 6px 0 #0f5a35, 0 10px 20px rgba(100, 244, 172, 0.3); }
@@ -311,27 +337,15 @@
       .about-content { gap: 2rem; }
       .volunteer-badge { margin-top: 1rem; border-left: none; border-top: 4px solid var(--primary-color); border-radius: 8px; }
       .cube-container { display: none; }
+      .flag-grid { grid-template-columns: repeat(2, 1fr); gap: 1rem; }
     }
 
-    /* --- MOBILE NAV & LANG FIX --- */
     @media (max-width: 768px) {
       nav ul { 
-        position: fixed; 
-        top: 0; 
-        left: 0;
-        width: 100%; 
-        height: 100vh;
-        background-color: rgba(255, 255, 255, 0.98); 
-        flex-direction: column; 
-        justify-content: center;
-        align-items: center;
-        gap: 2.5rem; 
-        transition: transform 0.4s cubic-bezier(0.77, 0, 0.175, 1);
-        transform: translateY(-100%);
-        opacity: 0;
-        z-index: 1001; 
-        box-shadow: none;
-        padding: 0;
+        position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
+        background-color: rgba(255, 255, 255, 0.98); flex-direction: column; justify-content: center;
+        align-items: center; gap: 2.5rem; transition: transform 0.4s cubic-bezier(0.77, 0, 0.175, 1);
+        transform: translateY(-100%); opacity: 0; z-index: 1001; box-shadow: none; padding: 0;
       }
       body.dark-mode nav ul { background-color: rgba(18, 18, 18, 0.98); }
       nav ul.active { transform: translateY(0); opacity: 1; }
@@ -339,18 +353,47 @@
       nav ul li a:hover { color: var(--primary-color); }
       .mobile-nav-toggle { display: block; position: relative; z-index: 1002; width: 30px; height: 30px; text-align: center; line-height: 30px; }
       .section-title { font-size: 2rem; }
-      
-      /* Hide Header Lang on Mobile */
       .utility-controls .lang-selector { display: none; }
-      
-      /* Show Mobile Internal Lang */
       .mobile-only-lang { display: flex !important; flex-wrap: wrap; justify-content: center; gap: 1rem; margin-top: 2rem; }
       .mobile-only-lang .lang-btn { font-size: 1.2rem; padding: 0.5rem 1rem; border: 1px solid rgba(0,0,0,0.1); }
       .mobile-only-lang .lang-btn.active { background-color: var(--primary-color); color: #000; font-weight: bold; }
+      .flag-grid { grid-template-columns: 1fr 1fr; }
     }
   </style>
 </head>
-<body>
+<body class="locked dark-mode">
+
+  <!-- TELA DE BOOT / SELEÇÃO DE IDIOMA -->
+  <div id="intro-screen">
+    <div class="intro-content">
+      <div class="glitch-wrapper">
+        <h1 class="glitch" data-text="SYSTEM INITIALIZATION">SYSTEM INITIALIZATION</h1>
+      </div>
+      <p class="intro-text">Select Interface Language</p>
+      
+      <div class="flag-grid">
+        <button class="flag-btn intro-lang-btn" data-lang="pt">
+          <span class="flag-icon">🇧🇷</span> Português
+        </button>
+        <button class="flag-btn intro-lang-btn" data-lang="en">
+          <span class="flag-icon">🇺🇸</span> English
+        </button>
+        <button class="flag-btn intro-lang-btn" data-lang="fr">
+          <span class="flag-icon">🇫🇷</span> Français
+        </button>
+        <button class="flag-btn intro-lang-btn" data-lang="ru">
+          <span class="flag-icon">🇷🇺</span> Русский
+        </button>
+        <button class="flag-btn intro-lang-btn" data-lang="zh">
+          <span class="flag-icon">🇨🇳</span> 中文
+        </button>
+        <button class="flag-btn intro-lang-btn" data-lang="de">
+          <span class="flag-icon">🇩🇪</span> Deutsch
+        </button>
+      </div>
+    </div>
+  </div>
+
   <div id="scroll-progress"></div>
   <header>
     <div class="container header-content">
@@ -384,7 +427,7 @@
           <button class="lang-btn" data-lang="de">DE</button>
         </div>
         <button class="theme-toggle" aria-label="Toggle dark mode">
-          <i class="fas fa-moon"></i>
+          <i class="fas fa-sun"></i> <!-- Inicia como sol pois forcei dark-mode na body -->
         </button>
         <button id="sound-btn" class="sound-toggle" aria-label="Toggle Sound">
             <i class="fas fa-volume-up"></i>
@@ -623,216 +666,57 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.globe.min.js"></script>
   <script>
-    /* LEMBRE-SE DE SUBSTITUIR A URL ABAIXO PELA SUA NOVA URL DO GOOGLE APPS SCRIPT */
     const GOOGLE_SHEETS_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbyCJW9ozLsN5dpAee724Ecy0nVoJqqWaRY8rCDC5mbps_YkgFKYPpZ-5cn6siAKjeu4wQ/exec'; 
 
+    /* Traduções (Mantidas iguais ao seu original) */
     const translations = {
-      en: {
-        navHome: "Home", navAbout: "About", navHobbies: "My World", navSkills: "Skills", navPortfolio: "Portfolio", navContact: "Contact",
-        heroTitle: "Building the Future with <span>Science and Code</span>",
-        heroSubtitle: "Computer Engineering focused on Health Systems and Market Analysis",
-        heroDescription: "I apply first principles from science and mathematics to engineer solutions that not only work, but solve real-world public health challenges and create market value.",
-        heroBtn: "Download Resume",
-        initMessage: "These skills do not define a person; a man is capable of reaching the moon and seeing horizons, but he doesn't need a school, only a book.",
-        aboutTitle: "About <span>Me</span>", aboutWho: "Who I Am",
-        aboutText1: "I am a technology enthusiast who blends scientific fundamentals with programming practice. Currently, I work at the Health Department of Caieiras while completing the 8th period of Computer Engineering.",
-        aboutText2: "In addition, I continuously enhance my language skills by mastering English (B2 CEFR), studying French, and learning Russian, expanding my ability to collaborate internationally.",
-        volTitle: "Developer at Harmonicanto", volDesc: "Developing technological solutions to support the organization.",
-        statProjects: "Completed Projects", statExperience: "Years of Experience", statLanguages: "Languages", statPeriod: "Period",
-        hobbiesTitle: "My <span>Universe</span>", 
-        hobby1Title: "Forex & B3 Trading", 
-        hobby1Desc: "Analyzing markets and economic patterns.", hobby2Title: "Chess", hobby2Desc: "Strategy, foresight and tactical thinking.", hobby4Title: "Nature", hobby4Desc: "Finding balance and inspiration outdoors.",
-        principlesTitle: "My <span>Principles</span>",
-        principle1Title: "Science-Based Engineering", principle1Desc: "I break down complex problems to their fundamentals, like in rocket science, to build logical, efficient, and robust solutions.",
-        principle2Title: "Technology with Purpose", principle2Desc: "My public health experience taught me that every line of code can impact lives. The goal is always well-being and efficiency.",
-        principle3Title: "Market-Aware Vision", principle3Desc: "A technical solution is only complete if it generates value. I analyze the landscape to ensure technology meets a real market need.",
-        skillsTitle: "My <span>Skills</span>", techSkills: "Technical Skills", scienceSkills: "Scientific Foundations", languageSkills: "Languages", english: "English (B2 CEFR)", french: "French", russian: "Russian", mandarin: "Mandarin",
-        math: "Mathematics", physics: "Physics", chem: "Chemistry",
-        portfolioTitle: "My <span>Portfolio</span>", 
-        featuredBadge: "Featured Project",
-        featuredTitle: "Radar Cidadão",
-        featuredDesc: "IoT-based system monitoring polluting gases, temperature, and humidity. Features reporting modules for infrastructure issues and a missing persons page.",
-        filterAll: "All", filterWeb: "Web Dev", filter3D: "3D Modeling",
-        proj1: "Laws of Accessibility", proj2: "System Visualization", proj3: "Virtual Engineering", 
-        contactTitle: "Get in <span>Touch</span>",
-        contactText: "I am open to new opportunities and partnerships. Feel free to reach out using the details below or send me a message directly through the form.",
-        formTitle: "Send Me a Message", formName: "Your Name", formEmail: "Your Email", formSubject: "Subject", formMessage: "Message", formSubmitBtn: "Send Message",
-        formSuccess: "Message sent successfully! Check your inbox soon.", formError: "Failed to send message.", rights: "All rights reserved."
-      },
-      pt: {
-        navHome: "Início", navAbout: "Sobre", navHobbies: "Meu Mundo", navSkills: "Skills", navPortfolio: "Portfolio", navContact: "Contato",
-        heroTitle: "Construindo o Futuro com <span>Ciência e Código</span>",
-        heroSubtitle: "Engenharia de Computação com foco em Sistemas de Saúde e Análise de Mercado",
-        heroDescription: "Aplico os primeiros princípios da ciência e da matemática para programar soluções que resolvem problemas reais na saúde pública e criam valor de mercado.",
-        heroBtn: "Baixar Currículo",
-        initMessage: "Essas habilidades não resumem uma pessoa; o homem é capaz de chegar à lua e ver horizontes, mas não precisa de uma escola, apenas de um livro.",
-        aboutTitle: "Sobre <span>Mim</span>", aboutWho: "Quem sou eu",
-        aboutText1: "Sou um entusiasta da tecnologia que alia fundamentos científicos à prática da programação. Atualmente, trabalho na Secretaria de Saúde de Caieiras enquanto concluo o 8º período de Engenharia de Computação.",
-        aboutText2: "Além disso, aprimoro minhas habilidades linguísticas, dominando inglês (B2 CEFR), estudando francês e aprendendo russo e mandarim.",
-        volTitle: "Desenvolvedor na Harmonicanto", volDesc: "Desenvolvendo soluções tecnológicas para apoiar a organização.",
-        statProjects: "Projetos Concluídos", statExperience: "Anos de Experiência", statLanguages: "Idiomas", statPeriod: "Período",
-        hobbiesTitle: "Meu <span>Universo</span>", 
-        hobby1Title: "Trader Forex & B3", 
-        hobby1Desc: "Análise de mercados e padrões econômicos.", hobby2Title: "Xadrez", hobby2Desc: "Estratégia, previsão e pensamento tático.", hobby4Title: "Natureza", hobby4Desc: "Encontrando equilíbrio e inspiração.",
-        principlesTitle: "Meus <span>Princípios</span>",
-        principle1Title: "Engenharia Baseada em Ciência", principle1Desc: "Decomponho problemas complexos até seus fundamentos para construir soluções lógicas, eficientes e robustas.",
-        principle2Title: "Tecnologia com Propósito", principle2Desc: "Minha experiência na saúde pública me ensinou que código impacta vidas. O objetivo é sempre o bem-estar e a eficiência.",
-        principle3Title: "Visão de Mercado", principle3Desc: "Uma solução técnica só é completa se gerar valor. Garanto que a tecnologia atenda a uma necessidade real de mercado.",
-        skillsTitle: "Minhas <span>Skills</span>", techSkills: "Habilidades Técnicas", scienceSkills: "Fundamentos Científicos", languageSkills: "Idiomas", english: "Inglês (B2 CEFR)", french: "Francês", russian: "Russo", mandarin: "Mandarim",
-        math: "Matemática", physics: "Física", chem: "Química",
-        portfolioTitle: "Meu <span>Portfolio</span>", 
-        featuredBadge: "Projeto em Destaque",
-        featuredTitle: "Radar Cidadão",
-        featuredDesc: "Sistema IoT para monitoramento de gases poluentes, temperatura e umidade. Contém páginas informativas, denúncias e cadastro de desaparecidos.",
-        filterAll: "Todos", filterWeb: "Desenv. Web", filter3D: "Modelagem 3D",
-        proj1: "Leis da Acessibilidade", proj2: "Visualização de Sistemas", proj3: "Engenharia Virtual", 
-        contactTitle: "Entre em <span>Contato</span>",
-        contactText: "Estou aberto a novas oportunidades e parcerias. Entre em contato pelos dados abaixo ou envie-me uma mensagem diretamente pelo formulário.",
-        formTitle: "Envie-me uma Mensagem", formName: "Seu Nome", formEmail: "Seu Email", formSubject: "Assunto", formMessage: "Mensagem", formSubmitBtn: "Enviar Mensagem",
-        formSuccess: "Mensagem enviada com sucesso!", formError: "Falha ao enviar mensagem.", rights: "Todos os direitos reservados."
-      },
-      fr: {
-        navHome: "Accueil", navAbout: "À propos", navHobbies: "Mon Univers", navSkills: "Compétences", navPortfolio: "Portfolio", navContact: "Contact",
-        heroTitle: "Bâtir l'avenir avec <span>Science et Code</span>",
-        heroSubtitle: "Génie Informatique axé sur les Systèmes de Santé et l'Analyse de Marché",
-        heroDescription: "J'applique les premiers principes de la science pour concevoir des solutions qui résolvent de vrais défis de santé publique.",
-        heroBtn: "Télécharger le CV",
-        initMessage: "Ces compétences ne définissent pas une personne ; un homme est capable d'atteindre la lune sans école, juste avec un livre.",
-        aboutTitle: "À propos de <span>Moi</span>", aboutWho: "Qui je suis",
-        aboutText1: "Je suis passionné par la technologie. Je travaille au Département de la Santé de Caieiras tout en terminant mes études en Génie Informatique (8ème période).",
-        aboutText2: "J'améliore continuellement mes compétences linguistiques en anglais, français, russe et mandarin.",
-        volTitle: "Développeur chez Harmonicanto", volDesc: "Développement de solutions technologiques pour l'organisation.",
-        statProjects: "Projets Réalisés", statExperience: "Années d'Expérience", statLanguages: "Langues", statPeriod: "Période",
-        hobbiesTitle: "Mon <span>Univers</span>", 
-        hobby1Title: "Trader Forex & B3", 
-        hobby1Desc: "Analyse des marchés économiques.", hobby2Title: "Échecs", hobby2Desc: "Stratégie et pensée tactique.", hobby4Title: "Nature", hobby4Desc: "Équilibre et inspiration.",
-        principlesTitle: "Mes <span>Principes</span>",
-        principle1Title: "Ingénierie Scientifique", principle1Desc: "Je décompose les problèmes complexes pour bâtir des solutions logiques et robustes.",
-        principle2Title: "Technologie à But Humain", principle2Desc: "Chaque ligne de code peut impacter des vies. L'objectif est le bien-être et l'efficacité.",
-        principle3Title: "Vision du Marché", principle3Desc: "Je m'assure que la technologie réponde durablement à un besoin réel du marché.",
-        skillsTitle: "Mes <span>Compétences</span>", techSkills: "Compétences Techniques", scienceSkills: "Fondements Scientifiques", languageSkills: "Langues", english: "Anglais (B2 CEFR)", french: "Français", russian: "Russe", mandarin: "Mandarin",
-        math: "Mathématiques", physics: "Physique", chem: "Chimie",
-        portfolioTitle: "Mon <span>Portfolio</span>",
-        featuredBadge: "Projet en Vedette",
-        featuredTitle: "Radar Cidadão",
-        featuredDesc: "Système IoT de surveillance des gaz, de la température et de l'humidité. Comprend des modules de signalement et de personnes disparues.",
-        filterAll: "Tous", filterWeb: "Dév. Web", filter3D: "Modélisation 3D",
-        proj1: "Lois de l'Accessibilité", proj2: "Visualisation de Systèmes", proj3: "Ingénierie Virtuelle", 
-        contactTitle: "Contactez <span>Moi</span>",
-        contactText: "Je suis ouvert à de nouvelles opportunités. N'hésitez pas à me contacter.",
-        formTitle: "Envoyez-moi un Message", formName: "Nom", formEmail: "Email", formSubject: "Sujet", formMessage: "Message", formSubmitBtn: "Envoyer",
-        formSuccess: "Message envoyé !", formError: "Échec de l'envoi.", rights: "Tous droits réservés."
-      },
-      ru: { 
-        navHome: "Главная", navAbout: "Обо мне", navHobbies: "Мой мир", navSkills: "Навыки", navPortfolio: "Портфолио", navContact: "Контакты",
-        heroTitle: "Будущее с <span>Наукой и Кодом</span>",
-        heroSubtitle: "Компьютерная инженерия: Системы здравоохранения и анализ рынка",
-        heroDescription: "Я применяю научные принципы и математику для разработки решений, которые решают реальные проблемы общественного здравоохранения.",
-        heroBtn: "Скачать резюме",
-        initMessage: "Эти навыки не определяют человека; человеку не нужна школа, только книга, чтобы достичь горизонта.",
-        aboutTitle: "О <span>себе</span>", aboutWho: "Кто я",
-        aboutText1: "Я энтузиаст технологий, работающий в Департаменте здравоохранения Каейрас и заканчивающий 8-й семестр по специальности Компьютерная инженерия.",
-        aboutText2: "Я постоянно совершенствую свои языковые навыки: английский, французский, русский и китайский.",
-        volTitle: "Разработчик в Harmonicanto", volDesc: "Разработка технологических решений для организации.",
-        statProjects: "Проекты", statExperience: "Опыт (лет)", statLanguages: "Языки", statPeriod: "Период",
-        hobbiesTitle: "Мои <span>Увлечения</span>", 
-        hobby1Title: "Форекс & B3 Трейдинг", 
-        hobby1Desc: "Анализ рынков и экономических моделей.", hobby2Title: "Шахматы", hobby2Desc: "Стратегия и тактическое мышление.", hobby4Title: "Природа", hobby4Desc: "Поиск баланса и вдохновения.",
-        principlesTitle: "Мои <span>Принципы</span>",
-        principle1Title: "Научная инженерия", principle1Desc: "Разложение сложных проблем на основы для создания надежных решений.",
-        principle2Title: "Технологии для людей", principle2Desc: "Каждая строка кода влияет на жизни. Цель — эффективность и благополучие.",
-        principle3Title: "Рыночное видение", principle3Desc: "Технология должна отвечать реальным потребностям рынка.",
-        skillsTitle: "Мои <span>Навыки</span>", techSkills: "Технические навыки", scienceSkills: "Научные Основы", languageSkills: "Языки", english: "Английский", french: "Французский", russian: "Русский", mandarin: "Мандарин",
-        math: "Математика", physics: "Физика", chem: "Химия",
-        portfolioTitle: "Мое <span>Портфолио</span>",
-        featuredBadge: "Избранный проект",
-        featuredTitle: "Radar Cidadão",
-        featuredDesc: "IoT-система мониторинга газов, температуры и влажности. Включает модули отчетности и пропавших без вести.",
-        filterAll: "Все", filterWeb: "Веб", filter3D: "3D",
-        proj1: "Законы доступности", proj2: "Визуализация систем", proj3: "Виртуальная инженерия", 
-        contactTitle: "Контакты",
-        contactText: "Я открыт для новых возможностей. Свяжитесь со мной.",
-        formTitle: "Написать сообщение", formName: "Имя", formEmail: "Email", formSubject: "Тема", formMessage: "Сообщение", formSubmitBtn: "Отправить",
-        formSuccess: "Отправлено!", formError: "Ошибка.", rights: "Все права защищены."
-      },
-      zh: { 
-        navHome: "主页", navAbout: "关于", navHobbies: "我的世界", navSkills: "技能", navPortfolio: "作品集", navContact: "联系",
-        heroTitle: "用<span>科学与代码</span>构建未来",
-        heroSubtitle: "计算机工程：卫生系统与市场分析",
-        heroDescription: "我运用科学和数学的第一性原理来设计解决方案，解决现实世界的公共卫生挑战。",
-        heroBtn: "下载简历",
-        initMessage: "技能不能定义一个人；人不需要学校，只需要一本书就能触及地平线。",
-        aboutTitle: "关于 <span>我</span>", aboutWho: "我是谁",
-        aboutText1: "我是一名技术爱好者，目前在 Caieiras 卫生局工作，同时完成计算机工程第8学期的学业。",
-        aboutText2: "我不断提升语言能力，掌握英语、法语、俄语和普通话。",
-        volTitle: "Harmonicanto 开发人员", volDesc: "开发技术解决方案以支持该组织。",
-        statProjects: "项目", statExperience: "经验 (年)", statLanguages: "语言", statPeriod: "学期",
-        hobbiesTitle: "我的<span>爱好</span>", 
-        hobby1Title: "外汇与B3交易", 
-        hobby1Desc: "分析市场和经济模式。", hobby2Title: "国际象棋", hobby2Desc: "战略、远见和战术思维。", hobby4Title: "自然", hobby4Desc: "在户外寻找平衡和灵感。",
-        principlesTitle: "我的<span>原则</span>",
-        principle1Title: "科学驱动工程", principle1Desc: "将复杂问题分解为基础原理，构建稳健的解决方案。",
-        principle2Title: "以人为本", principle2Desc: "每一行代码都影响生命。目标是提升福祉和效率。",
-        principle3Title: "市场洞察", principle3Desc: "确保技术能满足真实的市场需求。",
-        skillsTitle: "我的 <span>技能</span>", techSkills: "技术技能", scienceSkills: "科学基础", languageSkills: "语言", english: "英语", french: "法语", russian: "俄语", mandarin: "普通话",
-        math: "数学", physics: "物理", chem: "化学",
-        portfolioTitle: "我的 <span>作品集</span>",
-        featuredBadge: "精选项目",
-        featuredTitle: "Radar Cidadão",
-        featuredDesc: "基于物联网的气体、温度和湿度监测系统。具有基础设施问题报告和失踪人员页面功能。",
-        filterAll: "全部", filterWeb: "网页", filter3D: "3D建模",
-        proj1: "无障碍法则", proj2: "系统可视化", proj3: "虚拟工程", 
-        contactTitle: "联系我们",
-        contactText: "我乐于接受新的机遇。请与我联系。",
-        formTitle: "给我留言", formName: "姓名", formEmail: "邮箱", formSubject: "主题", formMessage: "消息", formSubmitBtn: "发送",
-        formSuccess: "发送成功！", formError: "发送失败。", rights: "版权所有。"
-      },
-      de: { 
-        navHome: "Startseite", navAbout: "Über mich", navHobbies: "Mein Universum", navSkills: "Skills", navPortfolio: "Portfolio", navContact: "Kontakt",
-        heroTitle: "Zukunft mit <span>Wissenschaft</span>",
-        heroSubtitle: "Computer Engineering: Gesundheitssysteme & Marktanalyse",
-        heroDescription: "Ich wende wissenschaftliche Prinzipien an, um reale Herausforderungen im öffentlichen Gesundheitswesen zu lösen.",
-        heroBtn: "Lebenslauf",
-        initMessage: "Fähigkeiten definieren keinen Menschen; man braucht nur ein Buch, um Horizonte zu erreichen.",
-        aboutTitle: "Über <span>mich</span>", aboutWho: "Wer ich bin",
-        aboutText1: "Ich arbeite beim Gesundheitsamt von Caieiras und studiere Computer Engineering (8. Semester).",
-        aboutText2: "Ich verbessere ständig meine Sprachen: Englisch, Französisch, Russisch und Mandarin.",
-        volTitle: "Entwickler bei Harmonicanto", volDesc: "Entwicklung technologischer Lösungen für die Organisation.",
-        statProjects: "Projekte", statExperience: "Jahre Erfahrung", statLanguages: "Sprachen", statPeriod: "Semester",
-        hobbiesTitle: "Mein <span>Universum</span>", 
-        hobby1Title: "Forex & B3 Trading", 
-        hobby1Desc: "Analyse von Märkten.", hobby2Title: "Schach", hobby2Desc: "Strategie und Taktik.", hobby4Title: "Natur", hobby4Desc: "Balance und Inspiration finden.",
-        principlesTitle: "Meine <span>Prinzipien</span>",
-        principle1Title: "Wissenschaftliches Engineering", principle1Desc: "Komplexe Probleme zerlegen, um robuste Lösungen zu bauen.",
-        principle2Title: "Technologie mit Zweck", principle2Desc: "Jede Codezeile beeinflusst Leben. Ziel ist Effizienz.",
-        principle3Title: "Marktbewusstsein", principle3Desc: "Technologie muss einen echten Marktbedarf erfüllen.",
-        skillsTitle: "Meine <span>Skills</span>", techSkills: "Technische Skills", scienceSkills: "Wissenschaftliche Grundlagen", languageSkills: "Sprachen", english: "Englisch", french: "Französisch", russian: "Russisch", mandarin: "Mandarin",
-        math: "Mathematik", physics: "Physik", chem: "Chemie",
-        portfolioTitle: "Mein <span>Portfolio</span>",
-        featuredBadge: "Vorgestelltes Projekt",
-        featuredTitle: "Radar Cidadão",
-        featuredDesc: "IoT-System zur Überwachung von Gasen, Temperatur und Feuchtigkeit. Enthält Melde- und Vermisstenseiten.",
-        filterAll: "Alle", filterWeb: "Web", filter3D: "3D",
-        proj1: "Gesetze der Barrierefreiheit", proj2: "Systemvisualisierung", proj3: "Virtuelle Technik", 
-        contactTitle: "Kontakt",
-        contactText: "Ich bin offen für neue Möglichkeiten.",
-        formTitle: "Nachricht senden", formName: "Name", formEmail: "Email", formSubject: "Betreff", formMessage: "Nachricht", formSubmitBtn: "Senden",
-        formSuccess: "Gesendet!", formError: "Fehler.", rights: "Alle Rechte vorbehalten."
-      }
+      en: { navHome: "Home", navAbout: "About", navHobbies: "My World", navSkills: "Skills", navPortfolio: "Portfolio", navContact: "Contact", heroTitle: "Building the Future with <span>Science and Code</span>", heroSubtitle: "Computer Engineering focused on Health Systems and Market Analysis", heroDescription: "I apply first principles from science and mathematics to engineer solutions that not only work, but solve real-world public health challenges and create market value.", heroBtn: "Download Resume", initMessage: "These skills do not define a person; a man is capable of reaching the moon and seeing horizons, but he doesn't need a school, only a book.", aboutTitle: "About <span>Me</span>", aboutWho: "Who I Am", aboutText1: "I am a technology enthusiast who blends scientific fundamentals with programming practice. Currently, I work at the Health Department of Caieiras while completing the 8th period of Computer Engineering.", aboutText2: "In addition, I continuously enhance my language skills by mastering English (B2 CEFR), studying French, and learning Russian, expanding my ability to collaborate internationally.", volTitle: "Developer at Harmonicanto", volDesc: "Developing technological solutions to support the organization.", statProjects: "Completed Projects", statExperience: "Years of Experience", statLanguages: "Languages", statPeriod: "Period", hobbiesTitle: "My <span>Universe</span>", hobby1Title: "Forex & B3 Trading", hobby1Desc: "Analyzing markets and economic patterns.", hobby2Title: "Chess", hobby2Desc: "Strategy, foresight and tactical thinking.", hobby4Title: "Nature", hobby4Desc: "Finding balance and inspiration outdoors.", principlesTitle: "My <span>Principles</span>", principle1Title: "Science-Based Engineering", principle1Desc: "I break down complex problems to their fundamentals, like in rocket science, to build logical, efficient, and robust solutions.", principle2Title: "Technology with Purpose", principle2Desc: "My public health experience taught me that every line of code can impact lives. The goal is always well-being and efficiency.", principle3Title: "Market-Aware Vision", principle3Desc: "A technical solution is only complete if it generates value. I analyze the landscape to ensure technology meets a real market need.", skillsTitle: "My <span>Skills</span>", techSkills: "Technical Skills", scienceSkills: "Scientific Foundations", languageSkills: "Languages", english: "English (B2 CEFR)", french: "French", russian: "Russian", mandarin: "Mandarin", math: "Mathematics", physics: "Physics", chem: "Chemistry", portfolioTitle: "My <span>Portfolio</span>", featuredBadge: "Featured Project", featuredTitle: "Radar Cidadão", featuredDesc: "IoT-based system monitoring polluting gases, temperature, and humidity. Features reporting modules for infrastructure issues and a missing persons page.", filterAll: "All", filterWeb: "Web Dev", filter3D: "3D Modeling", proj1: "Laws of Accessibility", proj2: "System Visualization", proj3: "Virtual Engineering", contactTitle: "Get in <span>Touch</span>", contactText: "I am open to new opportunities and partnerships. Feel free to reach out using the details below or send me a message directly through the form.", formTitle: "Send Me a Message", formName: "Your Name", formEmail: "Your Email", formSubject: "Subject", formMessage: "Message", formSubmitBtn: "Send Message", formSuccess: "Message sent successfully! Check your inbox soon.", formError: "Failed to send message.", rights: "All rights reserved." },
+      pt: { navHome: "Início", navAbout: "Sobre", navHobbies: "Meu Mundo", navSkills: "Skills", navPortfolio: "Portfolio", navContact: "Contato", heroTitle: "Construindo o Futuro com <span>Ciência e Código</span>", heroSubtitle: "Engenharia de Computação com foco em Sistemas de Saúde e Análise de Mercado", heroDescription: "Aplico os primeiros princípios da ciência e da matemática para programar soluções que resolvem problemas reais na saúde pública e criam valor de mercado.", heroBtn: "Baixar Currículo", initMessage: "Essas habilidades não resumem uma pessoa; o homem é capaz de chegar à lua e ver horizontes, mas não precisa de uma escola, apenas de um livro.", aboutTitle: "Sobre <span>Mim</span>", aboutWho: "Quem sou eu", aboutText1: "Sou um entusiasta da tecnologia que alia fundamentos científicos à prática da programação. Atualmente, trabalho na Secretaria de Saúde de Caieiras enquanto concluo o 8º período de Engenharia de Computação.", aboutText2: "Além disso, aprimoro minhas habilidades linguísticas, dominando inglês (B2 CEFR), estudando francês e aprendendo russo e mandarim.", volTitle: "Desenvolvedor na Harmonicanto", volDesc: "Desenvolvendo soluções tecnológicas para apoiar a organização.", statProjects: "Projetos Concluídos", statExperience: "Anos de Experiência", statLanguages: "Idiomas", statPeriod: "Período", hobbiesTitle: "Meu <span>Universo</span>", hobby1Title: "Trader Forex & B3", hobby1Desc: "Análise de mercados e padrões econômicos.", hobby2Title: "Xadrez", hobby2Desc: "Estratégia, previsão e pensamento tático.", hobby4Title: "Natureza", hobby4Desc: "Encontrando equilíbrio e inspiração.", principlesTitle: "Meus <span>Princípios</span>", principle1Title: "Engenharia Baseada em Ciência", principle1Desc: "Decomponho problemas complexos até seus fundamentos para construir soluções lógicas, eficientes e robustas.", principle2Title: "Tecnologia com Propósito", principle2Desc: "Minha experiência na saúde pública me ensinou que código impacta vidas. O objetivo é sempre o bem-estar e a eficiência.", principle3Title: "Visão de Mercado", principle3Desc: "Uma solução técnica só é completa se gerar valor. Garanto que a tecnologia atenda a uma necessidade real de mercado.", skillsTitle: "Minhas <span>Skills</span>", techSkills: "Habilidades Técnicas", scienceSkills: "Fundamentos Científicos", languageSkills: "Idiomas", english: "Inglês (B2 CEFR)", french: "Francês", russian: "Russo", mandarin: "Mandarim", math: "Matemática", physics: "Física", chem: "Química", portfolioTitle: "Meu <span>Portfolio</span>", featuredBadge: "Projeto em Destaque", featuredTitle: "Radar Cidadão", featuredDesc: "Sistema IoT para monitoramento de gases poluentes, temperatura e umidade. Contém páginas informativas, denúncias e cadastro de desaparecidos.", filterAll: "Todos", filterWeb: "Desenv. Web", filter3D: "Modelagem 3D", proj1: "Leis da Acessibilidade", proj2: "Visualização de Sistemas", proj3: "Engenharia Virtual", contactTitle: "Entre em <span>Contato</span>", contactText: "Estou aberto a novas oportunidades e parcerias. Entre em contato pelos dados abaixo ou envie-me uma mensagem diretamente pelo formulário.", formTitle: "Envie-me uma Mensagem", formName: "Seu Nome", formEmail: "Seu Email", formSubject: "Assunto", formMessage: "Mensagem", formSubmitBtn: "Enviar Mensagem", formSuccess: "Mensagem enviada com sucesso!", formError: "Falha ao enviar mensagem.", rights: "Todos os direitos reservados." },
+      fr: { navHome: "Accueil", navAbout: "À propos", navHobbies: "Mon Univers", navSkills: "Compétences", navPortfolio: "Portfolio", navContact: "Contact", heroTitle: "Bâtir l'avenir avec <span>Science et Code</span>", heroSubtitle: "Génie Informatique axé sur les Systèmes de Santé et l'Analyse de Marché", heroDescription: "J'applique les premiers principes de la science pour concevoir des solutions qui résolvent de vrais défis de santé publique.", heroBtn: "Télécharger le CV", initMessage: "Ces compétences ne définissent pas une personne ; un homme est capable d'atteindre la lune sans école, juste avec un livre.", aboutTitle: "À propos de <span>Moi</span>", aboutWho: "Qui je suis", aboutText1: "Je suis passionné par la technologie. Je travaille au Département de la Santé de Caieiras tout en terminant mes études en Génie Informatique (8ème période).", aboutText2: "J'améliore continuellement mes compétences linguistiques en anglais, français, russe et mandarin.", volTitle: "Développeur chez Harmonicanto", volDesc: "Développement de solutions technologiques pour l'organisation.", statProjects: "Projets Réalisés", statExperience: "Années d'Expérience", statLanguages: "Langues", statPeriod: "Période", hobbiesTitle: "Mon <span>Univers</span>", hobby1Title: "Trader Forex & B3", hobby1Desc: "Analyse des marchés économiques.", hobby2Title: "Échecs", hobby2Desc: "Stratégie et pensée tactique.", hobby4Title: "Nature", hobby4Desc: "Équilibre et inspiration.", principlesTitle: "Mes <span>Principes</span>", principle1Title: "Ingénierie Scientifique", principle1Desc: "Je décompose les problèmes complexes pour bâtir des solutions logiques et robustes.", principle2Title: "Technologie à But Humain", principle2Desc: "Chaque ligne de code peut impacter des vies. L'objectif est le bien-être et l'efficacité.", principle3Title: "Vision du Marché", principle3Desc: "Je m'assure que la technologie réponde durablement à un besoin réel du marché.", skillsTitle: "Mes <span>Compétences</span>", techSkills: "Compétences Techniques", scienceSkills: "Fondements Scientifiques", languageSkills: "Langues", english: "Anglais (B2 CEFR)", french: "Français", russian: "Russe", mandarin: "Mandarin", math: "Mathématiques", physics: "Physique", chem: "Chimie", portfolioTitle: "Mon <span>Portfolio</span>", featuredBadge: "Projet en Vedette", featuredTitle: "Radar Cidadão", featuredDesc: "Système IoT de surveillance des gaz, de la température et de l'humidité. Comprend des modules de signalement et de personnes disparues.", filterAll: "Tous", filterWeb: "Dév. Web", filter3D: "Modélisation 3D", proj1: "Lois de l'Accessibilité", proj2: "Visualisation de Systèmes", proj3: "Ingénierie Virtuelle", contactTitle: "Contactez <span>Moi</span>", contactText: "Je suis ouvert à de nouvelles opportunités. N'hésitez pas à me contacter.", formTitle: "Envoyez-moi un Message", formName: "Nom", formEmail: "Email", formSubject: "Sujet", formMessage: "Message", formSubmitBtn: "Envoyer", formSuccess: "Message envoyé !", formError: "Échec de l'envoi.", rights: "Tous droits réservés." },
+      ru: { navHome: "Главная", navAbout: "Обо мне", navHobbies: "Мой мир", navSkills: "Навыки", navPortfolio: "Портфолио", navContact: "Контакты", heroTitle: "Будущее с <span>Наукой и Кодом</span>", heroSubtitle: "Компьютерная инженерия: Системы здравоохранения и анализ рынка", heroDescription: "Я применяю научные принципы и математику для разработки решений, которые решают реальные проблемы общественного здравоохранения.", heroBtn: "Скачать резюме", initMessage: "Эти навыки не определяют человека; человеку не нужна школа, только книга, чтобы достичь горизонта.", aboutTitle: "О <span>себе</span>", aboutWho: "Кто я", aboutText1: "Я энтузиаст технологий, работающий в Департаменте здравоохранения Каейрас и заканчивающий 8-й семестр по специальности Компьютерная инженерия.", aboutText2: "Я постоянно совершенствую свои языковые навыки: английский, французский, русский и китайский.", volTitle: "Разработчик в Harmonicanto", volDesc: "Разработка технологических решений для организации.", statProjects: "Проекты", statExperience: "Опыт (лет)", statLanguages: "Языки", statPeriod: "Период", hobbiesTitle: "Мои <span>Увлечения</span>", hobby1Title: "Форекс & B3 Трейдинг", hobby1Desc: "Анализ рынков и экономических моделей.", hobby2Title: "Шахматы", hobby2Desc: "Стратегия и тактическое мышление.", hobby4Title: "Природа", hobby4Desc: "Поиск баланса и вдохновения.", principlesTitle: "Мои <span>Принципы</span>", principle1Title: "Научная инженерия", principle1Desc: "Разложение сложных проблем на основы для создания надежных решений.", principle2Title: "Технологии для людей", principle2Desc: "Каждая строка кода влияет на жизни. Цель — эффективность и благополучие.", principle3Title: "Рыночное видение", principle3Desc: "Технология должна отвечать реальным потребностям рынка.", skillsTitle: "Мои <span>Навыки</span>", techSkills: "Технические навыки", scienceSkills: "Научные Основы", languageSkills: "Языки", english: "Английский", french: "Французский", russian: "Русский", mandarin: "Мандарин", math: "Математика", physics: "Физика", chem: "Химия", portfolioTitle: "Мое <span>Портфолио</span>", featuredBadge: "Избранный проект", featuredTitle: "Radar Cidadão", featuredDesc: "IoT-система мониторинга газов, температуры и влажности. Включает модули отчетности и пропавших без вести.", filterAll: "Все", filterWeb: "Веб", filter3D: "3D", proj1: "Законы доступности", proj2: "Визуализация систем", proj3: "Виртуальная инженерия", contactTitle: "Контакты", contactText: "Я открыт для новых возможностей. Свяжитесь со мной.", formTitle: "Написать сообщение", formName: "Имя", formEmail: "Email", formSubject: "Тема", formMessage: "Сообщение", formSubmitBtn: "Отправить", formSuccess: "Отправлено!", formError: "Ошибка.", rights: "Все права защищены." },
+      zh: { navHome: "主页", navAbout: "关于", navHobbies: "我的世界", navSkills: "技能", navPortfolio: "作品集", navContact: "联系", heroTitle: "用<span>科学与代码</span>构建未来", heroSubtitle: "计算机工程：卫生系统与市场分析", heroDescription: "我运用科学和数学的第一性原理来设计解决方案，解决现实世界的公共卫生挑战。", heroBtn: "下载简历", initMessage: "技能不能定义一个人；人不需要学校，只需要一本书就能触及地平线。", aboutTitle: "关于 <span>我</span>", aboutWho: "我是谁", aboutText1: "我是一名技术爱好者，目前在 Caieiras 卫生局工作，同时完成计算机工程第8学期的学业。", aboutText2: "我不断提升语言能力，掌握英语、法语、俄语和普通话。", volTitle: "Harmonicanto 开发人员", volDesc: "开发技术解决方案以支持该组织。", statProjects: "项目", statExperience: "经验 (年)", statLanguages: "语言", statPeriod: "学期", hobbiesTitle: "我的<span>爱好</span>", hobby1Title: "外汇与B3交易", hobby1Desc: "分析市场和经济模式。", hobby2Title: "国际象棋", hobby2Desc: "战略、远见和战术思维。", hobby4Title: "自然", hobby4Desc: "在户外寻找平衡和灵感。", principlesTitle: "我的<span>原则</span>", principle1Title: "科学驱动工程", principle1Desc: "将复杂问题分解为基础原理，构建稳健的解决方案。", principle2Title: "以人为本", principle2Desc: "每一行代码都影响生命。目标是提升福祉和效率。", principle3Title: "市场洞察", principle3Desc: "确保技术能满足真实的市场需求。", skillsTitle: "我的 <span>技能</span>", techSkills: "技术技能", scienceSkills: "科学基础", languageSkills: "语言", english: "英语", french: "法语", russian: "俄语", mandarin: "普通话", math: "数学", physics: "物理", chem: "化学", portfolioTitle: "我的 <span>作品集</span>", featuredBadge: "精选项目", featuredTitle: "Radar Cidadão", featuredDesc: "基于物联网的气体、温度和湿度监测系统。具有基础设施问题报告和失踪人员页面功能。", filterAll: "全部", filterWeb: "网页", filter3D: "3D建模", proj1: "无障碍法则", proj2: "系统可视化", proj3: "虚拟工程", contactTitle: "联系我们", contactText: "我乐于接受新的机遇。请与我联系。", formTitle: "给我留言", formName: "姓名", formEmail: "邮箱", formSubject: "主题", formMessage: "消息", formSubmitBtn: "发送", formSuccess: "发送成功！", formError: "发送失败。", rights: "版权所有。" },
+      de: { navHome: "Startseite", navAbout: "Über mich", navHobbies: "Mein Universum", navSkills: "Skills", navPortfolio: "Portfolio", navContact: "Kontakt", heroTitle: "Zukunft mit <span>Wissenschaft</span>", heroSubtitle: "Computer Engineering: Gesundheitssysteme & Marktanalyse", heroDescription: "Ich wende wissenschaftliche Prinzipien an, um reale Herausforderungen im öffentlichen Gesundheitswesen zu lösen.", heroBtn: "Lebenslauf", initMessage: "Fähigkeiten definieren keinen Menschen; man braucht nur ein Buch, um Horizonte zu erreichen.", aboutTitle: "Über <span>mich</span>", aboutWho: "Wer ich bin", aboutText1: "Ich arbeite beim Gesundheitsamt von Caieiras und studiere Computer Engineering (8. Semester).", aboutText2: "Ich verbessere ständig meine Sprachen: Englisch, Französisch, Russisch und Mandarin.", volTitle: "Entwickler bei Harmonicanto", volDesc: "Entwicklung technologischer Lösungen für die Organisation.", statProjects: "Projekte", statExperience: "Jahre Erfahrung", statLanguages: "Sprachen", statPeriod: "Semester", hobbiesTitle: "Mein <span>Universum</span>", hobby1Title: "Forex & B3 Trading", hobby1Desc: "Analyse von Märkten.", hobby2Title: "Schach", hobby2Desc: "Strategie und Taktik.", hobby4Title: "Natur", hobby4Desc: "Balance und Inspiration finden.", principlesTitle: "Meine <span>Prinzipien</span>", principle1Title: "Wissenschaftliches Engineering", principle1Desc: "Komplexe Probleme zerlegen, um robuste Lösungen zu bauen.", principle2Title: "Technologie mit Zweck", principle2Desc: "Jede Codezeile beeinflusst Leben. Ziel ist Effizienz.", principle3Title: "Marktbewusstsein", principle3Desc: "Technologie muss einen echten Marktbedarf erfüllen.", skillsTitle: "Meine <span>Skills</span>", techSkills: "Technische Skills", scienceSkills: "Wissenschaftliche Grundlagen", languageSkills: "Sprachen", english: "Englisch", french: "Französisch", russian: "Russisch", mandarin: "Mandarin", math: "Mathematik", physics: "Physik", chem: "Chemie", portfolioTitle: "Mein <span>Portfolio</span>", featuredBadge: "Vorgestelltes Projekt", featuredTitle: "Radar Cidadão", featuredDesc: "IoT-System zur Überwachung von Gasen, Temperatur und Feuchtigkeit. Enthält Melde- und Vermisstenseiten.", filterAll: "Alle", filterWeb: "Web", filter3D: "3D", proj1: "Gesetze der Barrierefreiheit", proj2: "Systemvisualisierung", proj3: "Virtuelle Technik", contactTitle: "Kontakt", contactText: "Ich bin offen für neue Möglichkeiten.", formTitle: "Nachricht senden", formName: "Name", formEmail: "Email", formSubject: "Betreff", formMessage: "Nachricht", formSubmitBtn: "Senden", formSuccess: "Gesendet!", formError: "Fehler.", rights: "Alle Rechte vorbehalten." }
     };
 
     let vantaEffect;
+    let currentLang = 'en';
 
-    /* --- 1. AUDIO SYSTEM --- */
+    /* --- 1. AUDIO SYSTEM (ATUALIZADO PARA SOM COMPUTACIONAL DE BOOT) --- */
     const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
     let isMuted = false;
 
-    function playSound(type) {
-        if (isMuted || audioCtx.state === 'suspended') {
-            if(audioCtx.state === 'suspended') audioCtx.resume();
-            if(isMuted) return;
-        }
+    // Som Científico/Computacional da Tela de Intro
+    function playBootSound() {
+        if (isMuted) return;
+        if (audioCtx.state === 'suspended') audioCtx.resume();
         
+        const now = audioCtx.currentTime;
+        const masterGain = audioCtx.createGain();
+        masterGain.connect(audioCtx.destination);
+        masterGain.gain.setValueAtTime(0.1, now); // Volume geral
+
+        // Efeito de "Power Up"
+        const osc = audioCtx.createOscillator();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(50, now);
+        osc.frequency.exponentialRampToValueAtTime(1200, now + 0.6);
+        osc.connect(masterGain);
+        osc.start(now);
+        osc.stop(now + 0.6);
+
+        // Bips de Processamento de Dados (Hacker effect)
+        for(let i=0; i<6; i++) {
+            const bleep = audioCtx.createOscillator();
+            bleep.type = 'square';
+            bleep.frequency.setValueAtTime(400 + Math.random() * 1000, now + 0.5 + (i * 0.08));
+            bleep.connect(masterGain);
+            bleep.start(now + 0.5 + (i * 0.08));
+            bleep.stop(now + 0.5 + (i * 0.08) + 0.04);
+        }
+    }
+
+    function playSound(type) {
+        if (isMuted || audioCtx.state === 'suspended') return;
         const now = audioCtx.currentTime;
         const masterGain = audioCtx.createGain();
         masterGain.connect(audioCtx.destination);
@@ -866,6 +750,33 @@
         soundBtn.querySelector('i').className = isMuted ? 'fas fa-volume-mute' : 'fas fa-volume-up';
         if(!isMuted && audioCtx.state === 'suspended') audioCtx.resume();
     });
+
+    /* --- LOGICA DA TELA DE INTRO --- */
+    document.querySelectorAll('.intro-lang-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const lang = btn.getAttribute('data-lang');
+        
+        // Ativa Áudio
+        if (audioCtx.state === 'suspended') audioCtx.resume();
+        playBootSound();
+
+        // Configura o idioma escolhido no site todo
+        updateLanguage(lang);
+        document.querySelectorAll(`.lang-btn[data-lang="${lang}"]`).forEach(b => b.classList.add('active'));
+
+        // Fade Out da Tela de Intro
+        const introScreen = document.getElementById('intro-screen');
+        introScreen.classList.add('hidden');
+        
+        // Libera o Scroll do Site
+        setTimeout(() => {
+          document.body.classList.remove('locked');
+          // Inicia o Vanta após a tela sumir (melhor performance)
+          initVanta(document.body.classList.contains('dark-mode'));
+        }, 1000);
+      });
+    });
+
 
     /* --- 2. HACKER TEXT EFFECT --- */
     function hackerEffect(element) {
@@ -990,12 +901,35 @@
         });
     }
 
+    /* --- MANUSEIO DE IDIOMAS --- */
+    function typeWriter(element, text, speed = 40) {
+      let i = 0; element.innerHTML = '<span class="cursor"></span>';
+      function typing() {
+        if (i < text.length) {
+          element.innerHTML = text.substring(0, i + 1) + '<span class="cursor"></span>';
+          i++; setTimeout(typing, speed);
+        } else { element.querySelector('.cursor').style.animation = 'blink 1s infinite'; }
+      }
+      typing();
+    }
+
+    function updateLanguage(lang) {
+      currentLang = lang;
+      document.querySelectorAll('[data-key]').forEach(el => {
+        const key = el.getAttribute('data-key');
+        el.dataset.originalKey = key; 
+        if (!translations[lang][key] && lang !== 'en') return;
+        const text = translations[lang][key] || translations['en'][key];
+        if (key === 'heroSubtitle') { typeWriter(document.querySelector('.subtitle[data-key="heroSubtitle"]'), text); } 
+        else { el.innerHTML = text; el.dataset.originalText = el.innerText; }
+      });
+    }
+
+
     /* --- MAIN INIT --- */
-    let currentLang = 'pt';
     document.addEventListener('DOMContentLoaded', () => {
       initTilt();
 
-      // Scroll Progress Bar
       window.onscroll = function() {
         const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
         const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
@@ -1004,29 +938,6 @@
         const backToTopButton = document.getElementById('back-to-top');
         if (winScroll > 400) backToTopButton.classList.add('visible'); else backToTopButton.classList.remove('visible');
       };
-
-      function typeWriter(element, text, speed = 40) {
-        let i = 0; element.innerHTML = '<span class="cursor"></span>';
-        function typing() {
-          if (i < text.length) {
-            element.innerHTML = text.substring(0, i + 1) + '<span class="cursor"></span>';
-            i++; setTimeout(typing, speed);
-          } else { element.querySelector('.cursor').style.animation = 'blink 1s infinite'; }
-        }
-        typing();
-      }
-
-      function updateLanguage(lang) {
-        currentLang = lang;
-        document.querySelectorAll('[data-key]').forEach(el => {
-          const key = el.getAttribute('data-key');
-          el.dataset.originalKey = key; 
-          if (!translations[lang][key] && lang !== 'en') return;
-          const text = translations[lang][key] || translations['en'][key];
-          if (key === 'heroSubtitle') { typeWriter(document.querySelector('.subtitle[data-key="heroSubtitle"]'), text); } 
-          else { el.innerHTML = text; el.dataset.originalText = el.innerText; }
-        });
-      }
 
       function animateValue(obj, start, end, duration) {
         let startTimestamp = null;
@@ -1039,7 +950,6 @@
         window.requestAnimationFrame(step);
       }
 
-      // IMPROVED MOBILE NAV LOGIC (FULL SCREEN)
       const mobileNavToggle = document.querySelector('.mobile-nav-toggle');
       const navLinks = document.querySelector('nav ul');
       const icon = mobileNavToggle.querySelector('i');
@@ -1048,28 +958,20 @@
           navLinks.classList.toggle('active'); 
           mobileNavToggle.classList.toggle('active');
           if (navLinks.classList.contains('active')) {
-              icon.classList.remove('fa-bars');
-              icon.classList.add('fa-times');
-          } else {
-              icon.classList.remove('fa-times');
-              icon.classList.add('fa-bars');
-          }
+              icon.classList.remove('fa-bars'); icon.classList.add('fa-times');
+          } else { icon.classList.remove('fa-times'); icon.classList.add('fa-bars'); }
       });
       
       document.querySelectorAll('nav ul li a').forEach(link => { 
           link.addEventListener('click', () => { 
-              navLinks.classList.remove('active'); 
-              mobileNavToggle.classList.remove('active');
-              icon.classList.remove('fa-times');
-              icon.classList.add('fa-bars');
+              navLinks.classList.remove('active'); mobileNavToggle.classList.remove('active');
+              icon.classList.remove('fa-times'); icon.classList.add('fa-bars');
           }); 
       });
 
-      // LISTEN TO BOTH SETS OF LANGUAGE BUTTONS
       document.querySelectorAll('.lang-btn').forEach(btn => {
         btn.addEventListener('click', () => {
           document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
-          // Set active state on ALL buttons matching this language
           document.querySelectorAll(`.lang-btn[data-lang="${btn.dataset.lang}"]`).forEach(b => b.classList.add('active'));
           updateLanguage(btn.getAttribute('data-lang'));
         });
@@ -1084,20 +986,11 @@
         initVanta(isDarkMode); 
       });
 
-      const savedTheme = localStorage.getItem('theme');
-      if (savedTheme === 'dark') {
-        document.body.classList.add('dark-mode');
-        themeToggle.querySelector('i').className = 'fas fa-sun';
-        initVanta(true);
-      } else { initVanta(false); }
-
-      // Initialize default active buttons
-      document.querySelectorAll(`.lang-btn[data-lang="${currentLang}"]`).forEach(b => b.classList.add('active'));
-      updateLanguage(currentLang);
-
       document.querySelectorAll('a, button, .portfolio-item, .skill-bar, .featured-project, .stat-item, .principle-item, .hobby-card').forEach(el => {
-        el.addEventListener('mouseenter', () => playSound('hover'));
-        el.addEventListener('click', () => playSound('click'));
+        if (!el.classList.contains('intro-lang-btn')) { // Não dá hover na tela inicial pra não sobrepor
+          el.addEventListener('mouseenter', () => playSound('hover'));
+          el.addEventListener('click', () => playSound('click'));
+        }
       });
 
       const observer = new IntersectionObserver((entries, observer) => {
